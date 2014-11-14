@@ -22,6 +22,8 @@ Route::group(array(
 	Route::get('dashboard', 'dashboardController@index');
 	Route::get('transations/{type}', 'TransationsController@index');
 	Route::post('transations/add', 'TransationsController@addTransations');
+	Route::get('report', 'ReportController@index');
+
 });
 
 Route::post('login', 'UsersController@doLogin');

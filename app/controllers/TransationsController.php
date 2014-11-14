@@ -8,14 +8,23 @@ class TransationsController extends BaseController {
 		if($type=='expense') {
 			$this->layout->title="<i class='fa fa-truck'> Add Expense</i>";
 			$type="expense";
-			$data=Transations::where('type','=','expense')->take(10)->orderby('date','desc')->get();
+			$data=Transations::where('type','=','expense')
+				->take(10)
+				->orderby('tid','desc')
+				->get();
 		}
 		else {
 			$this->layout->title="<i class='fa fa-money'> Add Cash Receipt</i>";
 			$type="receipt";
-			$data=Transations::where('type','=','receipt')->take(10)->orderby('date','desc')->get();
+			$data=Transations::where('type','=','receipt')
+			->take(10)
+			->orderby('tid','desc')
+			->get();
 		}
-		$this->layout->content = View::make('Transation')->with('data',$data)->with('type',$type);
+		
+		$this->layout->content = View::make('Transation')
+			->with('data',$data)
+			->with('type',$type);
 	}
 
 	public function addTransations() {
@@ -37,7 +46,7 @@ class TransationsController extends BaseController {
 			$rules['amount']='required|numeric';			
 		}
 		else {
-			return Redirect::back()
+			return Redirect::to('transations/expense')
 				->withInput()
 				->with('error','Invalid form token, Plsease try again');
 		}

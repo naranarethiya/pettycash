@@ -32,7 +32,7 @@ $(document).ready(function() {
         }
     });
 
-    $("#datepicker").datepicker();
+    $(".datepicker").datepicker();
 });
 
 function check_mobile(mobile,ele) {
@@ -59,21 +59,6 @@ function check_email(email,ele) {
 	});
 }
 
-function add_error(data,ele) {
-	var name=$(ele).attr('name');
-	if(data.status==1) {
-		$(ele).removeClass('parsley-error');
-		$('#ele'+name).remove();
-		cus_form=1;
-	}
-	else {
-		$(ele).addClass('parsley-error');
-		$('#ele'+name).remove();
-		var error='<ul id="ele'+name+'" class="parsley-error-list" style="display: block;"><li class="required" style="display: list-item;">'+data.msg+'</li></ul>';
-		$(ele).after(error);
-		cus_form=0;
-	}
-}
 
 function loading() {
 	var over='<div id="overlay"><img src="'+base_url+'images/gif-load.gif" id="loading" /></div>'

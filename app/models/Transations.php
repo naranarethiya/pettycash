@@ -34,14 +34,49 @@ class Transations extends Eloquent implements UserInterface, RemindableInterface
 			return true;
 		}
 		catch(Exception $e) {
-			GlobalHelper::dsm($e);die;
-			GlobalHelper::setMessage($e->getMessage);
+			GlobalHelper::setMessage($e->getMessage());
 			return false;
 		}
 	}
 
 	public function manage_balance() {
 
+	}
+
+	public static function total_today_in() {
+		$sum=DB::table('transations')
+			->where('type','receipt')
+			->where('date',date('Y-m-d'))
+			->sum('amount');
+		return $sum;
+	}
+
+	public static function total_today_out() {
+		$sum=DB::table('transations')
+			->where('type','expense')
+			->where('date',date('Y-m-d'))
+			->sum('amount');
+		return $sum;
+	}
+
+	public static function total_month_out() {
+		$first=date('Y-m-01',strtotime('this month'));
+		$last=date('Y-m-t',strtotime('this month'));
+		$sum=DB::table('transations')
+			->where('type','expense')
+			->whereBetween('date',array($first,$last))
+			->sum('amount');
+		return $sum;
+	}
+
+	public static function total_month_in() {
+		$first=date('Y-m-01',strtotime('this month'));
+		$last=date('Y-m-t',strtotime('this month'));
+		$sum=DB::table('transations')
+			->where('type','receipt')
+			->whereBetween('date',array($first,$last))
+			->sum('amount');
+		return $sum;	
 	}
 
 }

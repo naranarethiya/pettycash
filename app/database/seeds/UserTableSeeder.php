@@ -11,6 +11,10 @@ class UserTableSeeder extends Seeder
 			'password' => Hash::make('abc@123'),
 			'temp' => 'abc@123',
 		));
+		
+		DB::table('balance')->delete();
+		$insert=array('uid'=>'1','balance'=>'0')
+		DB::table('balance')->insert($insert);
 	}
 }
 

@@ -20,9 +20,33 @@ Route::group(array(
     'before' => 'auth'
 ), function ()	{
 	Route::get('dashboard', 'dashboardController@index');
-	Route::get('transations/{type}', 'TransationsController@index');
-	Route::post('transations/add', 'TransationsController@addTransations');
+
+	/* for receipt transations */
+	Route::get('receipt', 'TransationsController@receipt');
+	Route::post('receipt/add', 'TransationsController@addReceipt');
+
+	/* for expense transations */
+	Route::get('receipt', 'TransationsController@receipt');
+	Route::post('receipt/add', 'TransationsController@addReceipt');
+
+	/* for expense transations */
+	Route::get('expense', 'TransationsController@expense');
+	Route::post('expense/add', 'TransationsController@addExpense');
+
+	/* for reporting */
 	Route::get('report', 'ReportController@index');
+
+	/* for branchs setting */
+	Route::get('setting/branch/{id?}','SettingCotroller@branchView')->where('id','[0-9]+');
+	Route::post('setting/branch/add/{id?}','SettingCotroller@branchAdd')->where('id','[0-9]+');
+
+	/* for Banks setting */
+	Route::get('setting/bank/{id?}','SettingCotroller@bankView')->where('id','[0-9]+');
+	Route::post('setting/bank/add/{id?}','SettingCotroller@bankAdd')->where('id','[0-9]+');
+
+	/* for Expense setting */
+	Route::get('setting/expense/{id?}','SettingCotroller@expenseView')->where('id','[0-9]+');
+	Route::post('setting/expense/add/{id?}','SettingCotroller@expenseAdd')->where('id','[0-9]+');
 
 });
 

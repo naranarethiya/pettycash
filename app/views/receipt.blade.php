@@ -1,20 +1,26 @@
 <div class="col-md-6">
 <section class="panel">
-	<header class="panel-heading">Add {{$type}}</header>
+	<header class="panel-heading">Add Receipt</header>
 	<div id="formContainer">
-	<form class="form-horizontal" method="post" action="{{URL::to('transations/add')}}" style="margin-top:20px" id="smsForm">
-		<input type="hidden" name="type" value="{{$type}}" />
+	<form class="form-horizontal" method="post" action="{{URL::to('receipt/add')}}" style="margin-top:20px" id="smsForm">
 		<div class="form-group">
-			 <label class="col-xs-3 control-label">Bill/Ref. No.</label>
+			 <label class="col-xs-3 control-label">Trans.ID</label>
 			  <div class="col-xs-8">
-				{{Form::text('ref_no',Input::old('ref_no'),array('placeholder'=>'Bill/Receipt No.','class'=>'form-control'))}}
+				{{Form::text('id','20',array('class'=>'form-control','readonly'))}}
+			  </div>
+		</div>
+
+		<div class="form-group">
+			 <label class="col-xs-3 control-label">Source <span class="text-danger">*</span></label>
+			  <div class="col-xs-8">
+				{{Form::text('source',Input::old('source'),array('placeholder'=>'Source of fund','class'=>'form-control'))}}
 			  </div>
 		</div>
 
 		<div class="form-group">
 			 <label class="col-xs-3 control-label">Date<span class="text-danger">*</span></label>
 			  <div class="col-xs-8">
-				{{Form::text('date',Input::old('date'),array('placeholder'=>'Select Date','class'=>'form-control','id'=>'datepicker','required','data-date-format'=>'yyyy-mm-dd','readonly'))}}
+				{{Form::text('date',Input::old('date'),array('placeholder'=>'Select Date','class'=>'form-control datepicker','required','data-date-format'=>'yyyy-mm-dd','readonly'))}}
 			  </div>
 		</div>
 
@@ -26,9 +32,9 @@
 		</div>
 		
 		<div class="form-group">
-			 <label class="col-xs-3 control-label">Note/ Reason/ Description</label>
+			 <label class="col-xs-3 control-label">Note/ Description</label>
 			<div class="col-xs-8">
-				{{Form::textarea('description',Input::old('description'),array('placeholder'=>'Note/ Reason/ Description','class'=>'form-control','rows'=>'4'))}}
+				{{Form::textarea('note',Input::old('note'),array('placeholder'=>'Note/ Description','class'=>'form-control','rows'=>'4'))}}
 			</div>
 		</div>
 		 <div class="form-group">
@@ -45,13 +51,13 @@
 
 <div class="col-md-6">
 	<section class="panel">
-		<header class="panel-heading">Last {{$type}}</header>
+		<header class="panel-heading">Last Receipts</header>
             <div class="table-responsive">
 				<table class="table table-striped b-t text-small dataTable">
 					<thead>
 						<tr>
 							<th>Date</th>
-							<th>Bill/Ref No.</th>
+							<th>Source</th>
 							<th>Reason/Detail</th>
 							<th>Amount</th>
 						</tr>
@@ -60,8 +66,8 @@
 					@foreach($data as $row)
 					<tr>
 						<td>{{$row->date}}</td>
-						<td>{{$row->ref_no}}</td>
-						<td>{{$row->description}}</td>
+						<td>{{$row->source}}</td>
+						<td>{{$row->note}}</td>
 						<td>{{$row->amount}}</td>
 					</tr>
 					@endforeach

@@ -30,7 +30,31 @@
 	<section class="panel">
 		<header class="panel-heading">Data</header>
 	    <div class="table-responsive">
-    		
+    		<table class="table table-striped b-t text-small dataTable">
+					<thead>
+						<tr>
+							<th>Date</th>
+							<th>Bill/Ref No.</th>
+							<th>Reason/Detail</th>
+							<th>Amount</th>
+						</tr>
+					</thead>
+				<tbody>
+					@foreach($data as $row)
+					<tr>
+						<td>{{$row->date}}</td>
+						<td>{{$row->ref_no}}</td>
+						<td>{{$row->description}}</td>
+						<td>{{$row->amount}}</td>
+					</tr>
+					@endforeach
+					@if(count($data) < 1)
+						<tr>
+							<td colspan="4">No data found</td>
+						</tr>
+					@endif
+				</tbody>
+				</table>
 	    </div>
 	</section>
 </div>

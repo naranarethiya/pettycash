@@ -32,7 +32,9 @@ $(document).ready(function() {
         }
     });
 
-    $(".datepicker").datepicker();
+    $(".datepicker").datepicker({
+    	"autoclose": true
+    }).datepicker('setValue', new Date());
 });
 
 function check_mobile(mobile,ele) {

@@ -19,7 +19,7 @@
 	</button> 
 	<ul class="nav navbar-nav">
 		<li>
-			<h4 class="h4 text-success" style="margin-left: 20px;margin-top: 15px;">Cash in Hand : {{$cash_in_hand}}</h3>
+			<h4 class="h4 text-success" style="margin-left: 20px;margin-top: 15px;">Cash in Hand : {{UserBalance::get_balance(Auth::user()->uid)}}</h3>
 		</li>
 	</ul>
 </header>

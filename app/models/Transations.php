@@ -39,13 +39,58 @@ class Transations extends Eloquent implements UserInterface, RemindableInterface
 		}
 	}
 
-	public function manage_balance() {
+	public static function addExpense($input,$uid) {
 
+		$insert['brid']=$input['brid'];
+		$insert['exid']=$input['exid'];
+		$insert['date']=$input['date'];
+		$insert['amount']=$input['amount'];
+		$insert['note']=$input['note'];
+		$insert['uid']=$uid;
+		$insert['type']='expense';
+		$insert['payment_type']=$input['payment_type'];
+		$insert['created_at']=date('Y-m-d h:i:s');
+
+		if($input['payment_type']=='cheque') {
+			$insert['bid']=$input['bid'];
+		}
+		
+		try {
+			DB::table('transations')
+				->insert($insert);
+			GlobalHelper::setMessage("Expense Added successfully",'success');
+			return true;
+		}
+		catch(Exception $e) {
+			GlobalHelper::setMessage($e->getMessage());
+			return false;
+		}
+	}
+
+	public static function addReceipt($input,$uid) {
+		$insert['source']=$input['source'];
+		$insert['date']=$input['date'];
+		$insert['amount']=$input['amount'];
+		$insert['note']=$input['note'];
+		$insert['uid']=$uid;
+		$insert['type']='receipt';
+		$insert['created_at']=date('Y-m-d h:i:s');
+
+		try {
+			DB::table('transations')->insert($insert);
+			GlobalHelper::setMessage('Receipt added successfully','success');
+		}
+		catch(Exception $e) {
+			GlobalHelper::setMessage($e->getMessage());
+			return false;
+		}
+		
 	}
 
 	public static function total_today_in() {
 		$sum=DB::table('transations')
 			->where('type','receipt')
+			->whereNull('deleted_at')
 			->where('date',date('Y-m-d'))
 			->sum('amount');
 		return $sum;
@@ -53,6 +98,7 @@ class Transations extends Eloquent implements UserInterface, RemindableInterface
 
 	public static function total_today_out() {
 		$sum=DB::table('transations')
+			->whereNull('deleted_at')
 			->where('type','expense')
 			->where('date',date('Y-m-d'))
 			->sum('amount');
@@ -63,6 +109,7 @@ class Transations extends Eloquent implements UserInterface, RemindableInterface
 		$first=date('Y-m-01',strtotime('this month'));
 		$last=date('Y-m-t',strtotime('this month'));
 		$sum=DB::table('transations')
+			->whereNull('deleted_at')
 			->where('type','expense')
 			->whereBetween('date',array($first,$last))
 			->sum('amount');
@@ -73,6 +120,7 @@ class Transations extends Eloquent implements UserInterface, RemindableInterface
 		$first=date('Y-m-01',strtotime('this month'));
 		$last=date('Y-m-t',strtotime('this month'));
 		$sum=DB::table('transations')
+			->whereNull('deleted_at')
 			->where('type','receipt')
 			->whereBetween('date',array($first,$last))
 			->sum('amount');

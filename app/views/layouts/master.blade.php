@@ -4,7 +4,7 @@
   <title>Petty cash management</title>
   <link href="{{ URL::asset('css/app.v2.css') }}"  rel="stylesheet">
   <link href="{{ URL::asset('css/font.css') }}" rel="stylesheet">
-  <script scr="{{ URL::asset('js/jquery.min.js')}}"></script>
+  <script src="{{ URL::asset('js/jquery.min.js') }}"></script>
 </head>
 <body>
 	@include("layouts.header")
@@ -24,7 +24,7 @@
 	<script>
 		var base_url = "{{ URL::to('/') }}/";
 	</script>
-<script src="{{ URL::asset('js/jquery.min.js') }}"></script>
+
 <script src="{{ URL::asset('js/bootstrap.min.js') }}"></script>
 <script src="{{ URL::asset('js/datepicker/bootstrap-datepicker.js') }}"></script>
 <script src="{{ URL::asset('js/script.js') }}"></script>

@@ -20,6 +20,7 @@ class DashboardController extends BaseController
 		$data['transations']=Transations::take(10)
 			->orderby('tid','desc')
 			->get();
-		$this->layout->content = View::make('dashboard')->with('data',$data);
+		$this->layout->content = View::make('dashboard')
+			->with('data',$data);
 	}
 }

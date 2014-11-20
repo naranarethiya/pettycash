@@ -3,7 +3,7 @@
 class BaseController extends Controller {
 
 	public function __construct()  {
-		View::share('cash_in_hand',Balance::get_balance());
+		//View::share('cash_in_hand',Balance::get_balance());
 	}
 	/**
 	 * Setup the layout used by the controller.

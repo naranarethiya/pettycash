@@ -2,7 +2,7 @@
 <section class="panel">
 	<header class="panel-heading">Add Expense</header>
 	<div id="formContainer">
-	<form class="form-horizontal" method="post" action="{{URL::to('expense/add')}}" style="margin-top:20px" id="smsForm">
+	<form class="form-horizontal" method="post" action="{{URL::to('expense/add')}}" style="margin-top:20px" id="expeseForm">
 		<div class="form-group">
 			 <label class="col-xs-3 control-label">Trans.ID</label>
 			  <div class="col-xs-8">
@@ -13,7 +13,7 @@
 		<div class="form-group">
 			 <label class="col-xs-3 control-label">Branch <span class="text-danger">*</span></label>
 			  <div class="col-xs-8">
-			  	{{Form::select('brid',$data['branchCombo'],NULL,array('class'=>'form-control','required','pattern'=>'[1-9]+'))}}
+			  	{{Form::select('brid',$data['branchCombo'],NULL,array('class'=>'form-control','required','pattern'=>'^[1-9][0-9]*$'))}}
 			  </div>
 		</div>
 
@@ -93,9 +93,14 @@
 					@foreach($data['transations'] as $row)
 					<tr>
 						<td>{{$row->date}}</td>
-						<td>{{$row->branch_name}}</td>
+						<td>{{$row->branche}}</td>
 						<td>{{$row->expense_type}}</td>
 						<td>{{$row->amount}}</td>
+						<td>{{$row->payment_type}} 
+							@if($row->bank!='') 								
+								( {{$row->bank}} )
+							@endif
+						</td>
 					</tr>
 					@endforeach
 					@if(count($data['transations']) < 1)
@@ -128,4 +133,57 @@
 			$('#bankCombo').hide();
 		}
 	});
+
+	$('#expeseForm').submit(function(e) {
+		var cnt=0;
+
+		$('#expeseForm text,email,number[required="required"]').each(function() {
+			var val=$(this).val();
+			if(val=='0' || val=='') {
+				$(this).addClass('parsley-error');
+				cnt=cnt+1;
+			}
+			else {
+				$(this).removeClass('parsley-error');
+			}
+		});
+
+		$('#expeseForm select[required="required"]').each(function() {
+			var val=$(this).val();
+			if(val=='0' || val=='') {
+				$(this).addClass('parsley-error');
+				cnt=cnt+1;
+			}
+			else {
+				$(this).removeClass('parsley-error');
+			}
+		});
+
+		var payment=$('input[name="payment_type"]:checked').val();
+
+		if(payment == 'cheque') {
+			var val=$('select[name="bid"]').val();	
+			if(val=='0' || val=='') {
+				$('select[name="bid"]').addClass('parsley-error');
+				cnt=cnt+1;
+			}
+			else {
+				$('select[name="bid"]').removeClass('parsley-error');
+			}		
+		}
+		else {
+			$('select[name="bid"]').removeClass('parsley-error');
+		}
+
+
+		if(cnt > 0) {
+			return false;
+		}
+		else {
+			return true;
+		}
+	});
+
+
+
 </script>

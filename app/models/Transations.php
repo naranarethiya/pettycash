@@ -54,7 +54,7 @@ class Transations extends Eloquent implements UserInterface, RemindableInterface
 		if($input['payment_type']=='cheque') {
 			$insert['bid']=$input['bid'];
 		}
-		
+
 		try {
 			DB::table('transations')
 				->insert($insert);
@@ -85,6 +85,61 @@ class Transations extends Eloquent implements UserInterface, RemindableInterface
 			return false;
 		}
 		
+	}
+
+	/*
+		Options:
+			start 0,
+			limit 10,
+			orderby tid,
+			order desc,
+			where array('collumn' =>'value')
+	*/
+	public function getExpense($uid,$option=array()) {
+		/* query variables */
+		$start=0;
+		$limit=10;
+		$orderby='transations.tid';
+		$order='desc';
+
+		/* Set query options */
+		if(isset($option['start'])) {
+			$start=$option['start'];
+		}
+
+		if(isset($option['limit'])) {
+			$limit=$option['limit'];
+		}
+
+		if(isset($option['orderby'])) {
+			$orderby=$option['orderby'];
+		}
+
+		if(isset($option['order'])) {
+			$order=$option['order'];
+		}
+
+		/* buid query */
+		$db=DB::table('transations')
+			->select('transations.*','banks.title as bank','expense_type.title as expense_type','branches.title as branche')
+			->leftJoin('banks','transations.bid','=','banks.bid')
+			->leftJoin('expense_type','transations.exid','=','expense_type.exid')
+			->leftJoin('branches','transations.brid','=','branches.brid')
+			->where('type','expense')
+			->orderby($orderby,$order)
+			->skip($start)
+			->take($limit);
+
+		/* Where condtions */
+		if(isset($option['where']) && count($option['where'] > 0)) {
+			foreach($option['where'] as $col=>$val) {
+				$db->where($col,$val);
+			}
+		}
+
+		$data=$db->get();
+		return $data;
+
 	}
 
 	public static function total_today_in() {

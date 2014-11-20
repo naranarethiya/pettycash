@@ -15,5 +15,9 @@
 @endif
 
 @foreach($errors->all() as $error)
-	<div class="alert alert-danger">{{ $error }}</div>
+	<div class="alert alert-danger">
+		<button type="button" class="close" data-dismiss="alert"><i class="fa fa-times"></i></button> 
+		<i class="fa fa-times"></i>
+		{{ $error }}
+	</div>
 @endforeach

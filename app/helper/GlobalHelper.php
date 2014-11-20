@@ -159,7 +159,7 @@ class GlobalHelper {
         }
         return $result;
     }
-    public function last_query() {
+    public static function last_query() {
         $queries = DB::getQueryLog();
         return $last_query = end($queries);
     }

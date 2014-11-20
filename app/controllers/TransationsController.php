@@ -17,11 +17,9 @@ class TransationsController extends BaseController {
 
 	public function expense() {
 		$this->layout->title="<i class='fa fa-truck'> Add Expense</i>";
-		$data['transations']=Transations::where('type','expense')
-			->take(10)
-			->orderby('tid','desc')
-			->get();
-
+		$trans= new Transations;
+		$data['transations']=$trans->getExpense(Auth::user()->uid);
+		
 		$data['branchCombo']=UserBranches::branchCombo(Auth::user()->uid);
 		$data['bankCombo']=UserBanks::bankCombo(Auth::user()->uid);
 		$data['expTypeCombo']=ExpenseTypes::expenseCombo(Auth::user()->uid);
@@ -63,6 +61,7 @@ class TransationsController extends BaseController {
 	}
 
 	public function addExpense() {
+
 		/* get branch,expense type id by comma seperated for validation */
 		$branchIds=keysImplode(UserBranches::branchCombo(Auth::user()->uid,false));
 		$expenseIds=keysImplode(ExpenseTypes::expenseCombo(Auth::user()->uid,false));
@@ -100,15 +99,14 @@ class TransationsController extends BaseController {
 			return Redirect::back()
 				->withInput()
 				->withErrors($validator);
-
 		}
 		else {
 			if(Transations::addExpense(Input::all(),Auth::user()->uid)) {
-			return Redirect::back()
-				->withInput();
+				return Redirect::to('expense');
 			}
 			else {
-				return Redirect::to('expense');
+				return Redirect::back()
+					->withInput();
 			}
 		}		
 		

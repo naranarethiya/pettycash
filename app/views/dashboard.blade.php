@@ -11,7 +11,7 @@
 			  <div class="inline">
 				<div>
 					<span class="h2" style="margin-left:10px;margin-top:10px;display:inline-block">
-						{{--$cash_in_hand--}}
+						{{UserBalance::get_balance(Auth::user()->uid)}}
 					</span>
 				</div>
 			  </div>

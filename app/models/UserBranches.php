@@ -33,7 +33,6 @@ class UserBranches extends Eloquent {
 	}
 
 	public function addBranch($input,$brid=false) {
-		GlobalHelper::dsm(func_get_args());
 		$branch = array();
 		$branch['title']=$input['title'];
 		$branch['person']=$input['person'];

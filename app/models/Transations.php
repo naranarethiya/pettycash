@@ -42,6 +42,7 @@ class Transations extends Eloquent implements UserInterface, RemindableInterface
 	public static function addExpense($input,$uid) {
 
 		$insert['brid']=$input['brid'];
+		$insert['source']=$input['source'];
 		$insert['exid']=$input['exid'];
 		$insert['date']=$input['date'];
 		$insert['amount']=$input['amount'];
@@ -125,7 +126,8 @@ class Transations extends Eloquent implements UserInterface, RemindableInterface
 			->leftJoin('banks','transations.bid','=','banks.bid')
 			->leftJoin('expense_type','transations.exid','=','expense_type.exid')
 			->leftJoin('branches','transations.brid','=','branches.brid')
-			->where('type','expense')
+			->where('transations.type','expense')
+			->where('transations.uid',$uid)
 			->orderby($orderby,$order)
 			->skip($start)
 			->take($limit);
@@ -140,6 +142,75 @@ class Transations extends Eloquent implements UserInterface, RemindableInterface
 		$data=$db->get();
 		return $data;
 
+	}
+
+	public function searchTransation($uid=0,$option=array()) {
+		/* query variables */
+		$start=0;
+		$limit=10;
+		$orderby='transations.tid';
+		$order='desc';
+
+		/* Set query options */
+		if(isset($option['start'])) {
+			$start=$option['start'];
+		}
+
+		if(isset($option['limit'])) {
+			$limit=$option['limit'];
+		}
+
+		if(isset($option['orderby'])) {
+			$orderby=$option['orderby'];
+		}
+
+		if(isset($option['order'])) {
+			$order=$option['order'];
+		}
+
+		/* buid query */
+		$db=DB::table('transations')
+			->select('transations.*','banks.title as bank','expense_type.title as expense_type','branches.title as branche')
+			->leftJoin('banks','transations.bid','=','banks.bid')
+			->leftJoin('expense_type','transations.exid','=','expense_type.exid')
+			->leftJoin('branches','transations.brid','=','branches.brid')
+			->where('transations.uid','=',$uid)
+			->orderby($orderby,$order)
+			->take($limit);
+
+		if(isset($option['from']) && $option['from']!='') {
+			$db->where('transations.date','>=',$option['from']);
+		}
+
+		if(isset($option['to']) && $option['to']!='') {
+			$db->where('transations.date','<=',$option['to']);
+		}
+
+		if(isset($option['type']) && $option['type']!='') {
+			$db->where('transations.type','=',$option['type']);
+		}
+
+		if(isset($option['payment_type']) && $option['payment_type']!='') {
+			$db->where('transations.payment_type','=',$option['payment_type']);
+		}
+
+		if(isset($option['brid']) && $option['brid']!='' && $option['brid']!='0' ) {
+			$db->where('transations.brid','=',$option['brid']);
+		}
+
+		if(isset($option['exid']) && $option['exid']!='' && $option['exid']!='0') {
+			$db->where('transations.exid','=',$option['exid']);
+		}
+
+		if(isset($option['bid']) && $option['bid']!='' && $option['bid']!='0') {
+			$db->where('transations.bid','=',$option['bid']);
+		}
+
+		if(isset($option['source']) && $option['source']!='') {
+			$db->where('transations.source','LIKE','%'.$option['source'].'%');
+		}
+
+		return $data=$db->get();
 	}
 
 	public static function total_today_in() {

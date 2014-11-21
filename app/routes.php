@@ -19,7 +19,7 @@ Route::get('login', 'UsersController@login');
 Route::group(array(
     'before' => 'auth'
 ), function ()	{
-	Route::get('dashboard', 'dashboardController@index');
+	Route::get('dashboard', 'DashboardController@index');
 
 	/* for receipt transations */
 	Route::get('receipt', 'TransationsController@receipt');
@@ -48,6 +48,9 @@ Route::group(array(
 	Route::get('setting/expense/{id?}','SettingCotroller@expenseView')->where('id','[0-9]+');
 	Route::post('setting/expense/add/{id?}','SettingCotroller@expenseAdd')->where('id','[0-9]+');
 
+	/* searching */
+	Route::get('search','SearchController@index');
+	Route::post('search','SearchController@search');
 });
 
 Route::post('login', 'UsersController@doLogin');

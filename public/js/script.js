@@ -35,6 +35,10 @@ $(document).ready(function() {
     $(".datepicker").datepicker({
     	"autoclose": true
     }).datepicker('setValue', new Date());
+
+    $(".datepicker2").datepicker({
+    	"autoclose": true
+    });
 });
 
 function check_mobile(mobile,ele) {

@@ -72,6 +72,7 @@ class TransationsController extends BaseController {
 
 		/* validation rules */
 		$rules=array(
+			'source'=>'required',
 			'brid'=>'required|in:'.$branchIds,
 			'exid'=>'required|in:'.$expenseIds,
 			'date'=>'required|date_format:Y-m-d',
@@ -86,6 +87,7 @@ class TransationsController extends BaseController {
 		}
 
 		$messages=array(
+			'source.required'=>'Pay to is required',
 			'brid.in'=>'Invalid branch selected',
 			'exid.in'=>'Invalid Expense type selected',
 			'date.date_format'=>'Invalid date format, format must YYYY-MM-DD',

@@ -57,3 +57,49 @@
 	margin-left:20px;
 	cursor:pointer;
 }
+
+.pagination{
+    float:right;
+}
+.pagination a{
+    position: relative;
+    float: left;
+    padding: 6px 12px;
+    margin-left: -1px;
+    line-height: 1.42857143;
+    color: #428bca;
+    text-decoration: none;
+    background-color: #fff;
+    border: 1px solid #ddd;
+}
+
+.pagination strong{
+    position: relative;
+    float: left;
+    padding: 6px 12px;
+    margin-left: -1px;
+    line-height: 1.42857143;
+    color: #000000;
+    text-decoration: none;
+    background-color: #fff;
+    border: 1px solid #ddd;
+}
+
+.dataTables_info, .dataTables_paginate {
+	padding: 15px;
+	margin-top: 20px;
+}
+
+fieldset {
+    border: 1px solid #1F497D;
+    border-radius: 5px;
+    padding: 5px;
+	margin-bottom:10px;
+}
+
+fieldset legend {
+    padding: 5px 10px ;
+	width:auto;
+	border:0px;
+    margin-left: 20px;
+}

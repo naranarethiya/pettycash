@@ -11,6 +11,14 @@
 		</div>
 
 		<div class="form-group">
+			 <label class="col-xs-3 control-label">Pay to <span class="text-danger">*</span></label>
+			  <div class="col-xs-8">
+				{{Form::text('source',NULL,array('class'=>'form-control','required'))}}
+			  </div>
+		</div>
+
+
+		<div class="form-group">
 			 <label class="col-xs-3 control-label">Branch <span class="text-danger">*</span></label>
 			  <div class="col-xs-8">
 			  	{{Form::select('brid',$data['branchCombo'],NULL,array('class'=>'form-control','required','pattern'=>'^[1-9][0-9]*$'))}}

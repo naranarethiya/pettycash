@@ -25,6 +25,32 @@
 		var base_url = "{{ URL::to('/') }}/";
 	</script>
 
+
+<!-- Modal -->
+  <div class="modal fade" id="DailyReport" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h4 class="modal-title">Daily Report</h4>
+        </div>
+        <div class="modal-body">
+			<form action="{{URL::to("PrintDailyReport")}}" class="form-horizontal" method="post" >
+				<div class="form-group">
+						<label class="col-xs-2 control-label">Date</label>
+					  <div class="col-xs-6">
+						{{Form::text('dailyDate',Input::get('dailyDate'),array('placeholder'=>'From Date','class'=>'form-control datepicker2','data-date-format'=>'yyyy-mm-dd'))}}
+					  </div>
+					  <div class="col-xs-3">
+					  	<input type="submit" class="btn btn-primary" Value="Submit" />
+				  	</div>
+				</div>
+			</form>
+        </div>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div><!-- /.modal -->
+<!-- End modal -->
 <script src="{{ URL::asset('js/bootstrap.min.js') }}"></script>
 <script src="{{ URL::asset('js/datepicker/bootstrap-datepicker.js') }}"></script>
 <script src="{{ URL::asset('js/script.js') }}"></script>

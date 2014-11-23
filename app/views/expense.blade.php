@@ -32,12 +32,12 @@
 			  </div>
 		</div>
 
-		<div class="form-group">
+		<!--<div class="form-group">
 			 <label class="col-xs-3 control-label">Date<span class="text-danger">*</span></label>
 			  <div class="col-xs-8">
 				{{Form::text('date',Input::old('date'),array('placeholder'=>'Select Date','class'=>'form-control datepicker','required','data-date-format'=>'yyyy-mm-dd','readonly'))}}
 			  </div>
-		</div>
+		</div>-->
 
 		<div class="form-group">
 			 <label class="col-xs-3 control-label">Amount<span class="text-danger">*</span></label>

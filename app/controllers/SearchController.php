@@ -4,7 +4,7 @@ class SearchController extends BaseController {
 	protected $layout = 'layouts.master';
 
 	public function index() {
-		$this->layout->title="Reporing";
+		$this->layout->title="Search Transations";
 		$data=array();
 		$data['branchCombo']=UserBranches::branchCombo(Auth::user()->uid);
 		$data['bankCombo']=UserBanks::bankCombo(Auth::user()->uid);

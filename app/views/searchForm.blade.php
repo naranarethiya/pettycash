@@ -19,10 +19,10 @@
 			<label class="col-xs-3 control-label">&nbsp;&nbsp;</label>
 			<div class="col-xs-8">
 				<label class="control-label">
-					<input type="radio" name="type" value="expense" @if(Input::get('type')=='expense') checked="checked" @endif>Expense
+					<input type="radio" name="type" value="expense" @if(Input::get('type')=='expense') checked="checked" @endif> Expense
 				</label>&nbsp;&nbsp;&nbsp;
 				<label class="control-label">
-					<input type="radio" name="type" value="receipt" @if(Input::get('type')=='receipt') checked="checked" @endif>Receipt
+					<input type="radio" name="type" value="receipt" @if(Input::get('type')=='receipt') checked="checked" @endif> Receipt
 				</label>
 			</div>
 		</div>
@@ -68,14 +68,7 @@
 	</div>
 	<div class="form-group">
 			<div class="col-md-6">
-				<label class="col-xs-3 control-label">Record Per page</label>
-				<div class="col-xs-8">
-					{{Form::select('limit',array('30'=>'30','60'=>'60','100'=>'100','200'=>'200'),Input::get('limit'),array('class'=>'form-control'))}}
-				</div>
-			</div>
-
-			<div class="col-md-6">
-				<label class="col-xs-3 control-label">&nbsp;&nbsp;</label>
+				<label class="col-xs-3 control-label">Payment</label>
 				<div class="col-xs-8">
 					<label class="control-label">
 						<input type="radio" name="payment_type" value="cash" @if(Input::get('payment_type')=='cash') checked="checked" @endif>Cash
@@ -83,6 +76,13 @@
 					<label class="control-label">
 						<input type="radio" name="payment_type" value="cheque" @if(Input::get('payment_type')=='cheque') checked="checked" @endif>Cheque
 					</label>
+				</div>
+			</div>
+			
+			<div class="col-md-6">
+				<label class="col-xs-3 control-label">Record Per page</label>
+				<div class="col-xs-8">
+					{{Form::select('limit',array('30'=>'30','60'=>'60','100'=>'100','200'=>'200'),Input::get('limit'),array('class'=>'form-control'))}}
 				</div>
 			</div>
 		</div>

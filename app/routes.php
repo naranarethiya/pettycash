@@ -51,6 +51,12 @@ Route::group(array(
 	/* searching */
 	Route::get('search','SearchController@index');
 	Route::post('search','SearchController@search');
+
+	/* print Debit Voucher */
+	Route::get('printDebitVoucher/{tid}','TransationsController@printExpense')->where('id','[0-9]+');
+
+	/* print daily report */
+	Route::post('PrintDailyReport','TransationsController@PrintDailyReport');
 });
 
 Route::post('login', 'UsersController@doLogin');

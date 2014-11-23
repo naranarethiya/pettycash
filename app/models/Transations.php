@@ -44,7 +44,8 @@ class Transations extends Eloquent implements UserInterface, RemindableInterface
 		$insert['brid']=$input['brid'];
 		$insert['source']=$input['source'];
 		$insert['exid']=$input['exid'];
-		$insert['date']=$input['date'];
+		//$insert['date']=$input['date'];
+		$insert['date']=date('Y-m-d');
 		$insert['amount']=$input['amount'];
 		$insert['note']=$input['note'];
 		$insert['uid']=$uid;
@@ -57,10 +58,10 @@ class Transations extends Eloquent implements UserInterface, RemindableInterface
 		}
 
 		try {
-			DB::table('transations')
-				->insert($insert);
-			GlobalHelper::setMessage("Expense Added successfully",'success');
-			return true;
+			$insertId=DB::table('transations')
+				->insertGetId($insert);
+			/*GlobalHelper::setMessage("Expense Added successfully",'success');*/
+			return $insertId;
 		}
 		catch(Exception $e) {
 			GlobalHelper::setMessage($e->getMessage());
@@ -70,7 +71,8 @@ class Transations extends Eloquent implements UserInterface, RemindableInterface
 
 	public static function addReceipt($input,$uid) {
 		$insert['source']=$input['source'];
-		$insert['date']=$input['date'];
+		$insert['date']=date('Y-m-d');
+		//$insert['date']=$input['date'];
 		$insert['amount']=$input['amount'];
 		$insert['note']=$input['note'];
 		$insert['uid']=$uid;
@@ -120,6 +122,7 @@ class Transations extends Eloquent implements UserInterface, RemindableInterface
 			$order=$option['order'];
 		}
 
+
 		/* buid query */
 		$db=DB::table('transations')
 			->select('transations.*','banks.title as bank','expense_type.title as expense_type','branches.title as branche')
@@ -147,17 +150,13 @@ class Transations extends Eloquent implements UserInterface, RemindableInterface
 	public function searchTransation($uid=0,$option=array()) {
 		/* query variables */
 		$start=0;
-		$limit=10;
+		$limit=2;
 		$orderby='transations.tid';
 		$order='desc';
 
 		/* Set query options */
 		if(isset($option['start'])) {
 			$start=$option['start'];
-		}
-
-		if(isset($option['limit'])) {
-			$limit=$option['limit'];
 		}
 
 		if(isset($option['orderby'])) {
@@ -175,8 +174,13 @@ class Transations extends Eloquent implements UserInterface, RemindableInterface
 			->leftJoin('expense_type','transations.exid','=','expense_type.exid')
 			->leftJoin('branches','transations.brid','=','branches.brid')
 			->where('transations.uid','=',$uid)
-			->orderby($orderby,$order)
-			->take($limit);
+			->orderby($orderby,$order);
+
+		if(isset($option['limit'])) {
+			if($option['limit']!='0') {
+				$db->take($option['limit']);
+			}
+		}
 
 		if(isset($option['from']) && $option['from']!='') {
 			$db->where('transations.date','>=',$option['from']);
@@ -210,7 +214,42 @@ class Transations extends Eloquent implements UserInterface, RemindableInterface
 			$db->where('transations.source','LIKE','%'.$option['source'].'%');
 		}
 
+		/* Where condtions */
+		if(isset($option['where']) && count($option['where'] > 0)) {
+			foreach($option['where'] as $col=>$val) {
+				$db->where($col,$val);
+			}
+		}
+
 		return $data=$db->get();
+	}
+
+	public function closingBalance($uid,$date) {
+		$balance=DB::table('transations')
+			->select('balance')
+			->where('date','<=',$date)
+			->where('uid',$uid)
+			->orderby('tid','desc')
+			->limit(1)
+			->get();
+		if(count($balance) < 1) {
+			return 0;
+		}
+		return $balance[0]->balance;
+	}
+
+	public function openingBalance($uid,$date) {
+		$balance=DB::table('transations')
+			->select('balance')
+			->where('date','<',$date)
+			->where('uid',$uid)
+			->orderby('tid','desc')
+			->limit(1)
+			->get();
+		if(count($balance) < 1) {
+			return 0;
+		}
+		return $balance[0]->balance;
 	}
 
 	public static function total_today_in() {

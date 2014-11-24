@@ -214,4 +214,5 @@ class TransationsController extends BaseController {
 			->with('openingBalance',$openingBalance)
 			->with('closingBalance',$closingBalance);
 	}
+
 }

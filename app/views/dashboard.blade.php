@@ -1,102 +1,74 @@
-<div class="row">
-	<div class="col-md-6">
-		<div class="col-md-4">
-		  <section class="panel">
-			<header class="panel-heading bg-white">
-				<div class="text-center h5"> 
-					<strong>Cash in hand</strong>
-				</div>
-			</header>
-			<div class="panel-body pull-in text-center">
-			  <div class="inline">
-				<div>
-					<span class="h2" style="margin-left:10px;margin-top:10px;display:inline-block">
-						{{UserBalance::get_balance(Auth::user()->uid)}}
-					</span>
-				</div>
-			  </div>
-			</div>
-		  </section>
-		</div>
-		<div class="col-md-4">
-		  <section class="panel">
-			<header class="panel-heading bg-white">
-				<div class="text-center h5"> 
-					<strong>Today Money Out</strong>
-				</div>
-			</header>
-			<div class="panel-body pull-in text-center">
-			  <div class="inline">
-				<div>
-					<span class="h2" style="color:#DF3737;margin-left:10px;margin-top:10px;display:inline-block">
-						{{$data['today_out']}}
-					</span>
-				</div>
-			  </div>
-			</div>
-		  </section>
-		</div>
+ <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+    <script type="text/javascript">
 
-		<div class="col-md-4">
-		  <section class="panel">
-			<header class="panel-heading bg-white">
-				<div class="text-center h5"> 
-					<strong>Today Money In</strong>
-				</div>
-			</header>
-			<div class="panel-body pull-in text-center">
-			  <div class="inline">
-				<div>
-					<span class="h2 text-success" style="margin-left:10px;margin-top:10px;display:inline-block">
-						{{$data['today_in']}}
-					</span>
-				</div>
-			  </div>
-			</div>
-		  </section>
+      // Load the Visualization API and the piechart package.
+      google.load('visualization', '1.0', {'packages':['corechart']});
+
+      google.setOnLoadCallback(drawChart);
+
+      function drawChart() {
+        var today = new google.visualization.DataTable();
+        today.addColumn('string', 'Topping');
+        today.addColumn('number', 'Slices');
+        today.addRows([
+          ['Receipt', {{$data['today_in']}}],
+          ['Expense', {{$data['today_out']}}],
+        ]);
+
+        var monthly = new google.visualization.DataTable();
+        monthly.addColumn('string', 'Topping');
+        monthly.addColumn('number', 'Slices');
+        monthly.addRows([
+          ['Receipt', {{$data['month_in']}}],
+          ['Expense', {{$data['month_out']}}],
+        ]);
+
+		var weekly = google.visualization.arrayToDataTable(
+			{{json_encode($data['chatData'])}}
+		);
+
+		var weeklyOptions = { title: 'Last Week Transations'};
+
+        // Set chart options
+        var todayOptions = { legend: 'none',title:'Today'};
+        var monthlyOptions = { legend: 'none',title:'Monthly'};
+
+        // Instantiate and draw our chart, passing in some options.
+        var todayDraw = new google.visualization.PieChart(document.getElementById('today'));
+        todayDraw.draw(today, todayOptions);
+
+        var monthlyDraw = new google.visualization.PieChart(document.getElementById('monthly'));
+        monthlyDraw.draw(monthly, monthlyOptions);      
+
+        var weeklyDraw = new google.visualization.ColumnChart(document.getElementById('weekly'));
+  		weeklyDraw.draw(weekly, weeklyOptions);
+      }
+</script>
+
+<div class="row">
+	<div class="col-md-5">
+		<div class="col-md-6">
+			<div id="today"></div>
 		</div>
-		<div class="col-md-4">
-		  <section class="panel">
-			<header class="panel-heading bg-white">
-				<div class="text-center h5"> 
-					<strong>Monthly Money Out</strong>
-				</div>
-			</header>
-			<div class="panel-body pull-in text-center">
-			  <div class="inline">
-				<div>
-					<span class="h2" style="margin-left:10px;margin-top:10px;display:inline-block">
-						{{$data['month_out']}}
-					</span>
-				</div>
-			  </div>
-			</div>
-		  </section>
-		</div>
-		<div class="col-md-4">
-		  <section class="panel">
-			<header class="panel-heading bg-white">
-				<div class="text-center h5"> 
-					<strong>Monthly Money In</strong>
-				</div>
-			</header>
-			<div class="panel-body pull-in text-center">
-			  <div class="inline">
-				<div>
-					<span class="h2" style="margin-left:10px;margin-top:10px;display:inline-block">
-						{{$data['month_in']}}
-					</span>
-				</div>
-			  </div>
-			</div>
-		  </section>
+		<div class="col-md-6">
+			<div id="monthly"></div>
 		</div>
 	</div>
-	<div class="col-md-6">
+	<div class="col-md-7">
+		<div class="col-md-12">
+			<div id="weekly"></div>
+		</div>
+	</div>
+</div>
+<div class="clearfix"></div>
+<br/></br/>
+<div class="row">
+	<div class="col-lg-12">
+	<div class="col-md-12">
 	<section class="panel">
 		<header class="panel-heading">Last Transations</header>
             <div class="table-responsive">
-				<table class="table table-striped b-t text-small dataTable">
+				<table class="table b-t text-smal">
 					<thead>
 						<tr>
 							<th>Date</th>
@@ -108,7 +80,7 @@
 					</thead>
 				<tbody>
 					@foreach($data['transations'] as $row)
-					<tr>
+					<tr class="@if($row->type=='expense') danger @else success @endif">
 						<td>{{$row->date}}</td>
 						<td>{{ucwords($row->type)}}</td>
 						<td>{{$row->description}}</td>
@@ -125,5 +97,7 @@
 				</table>
 			</div>
 	</section>
+</div>
+</div>
 </div>
 </div>

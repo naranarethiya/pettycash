@@ -292,4 +292,11 @@ class Transations extends Eloquent implements UserInterface, RemindableInterface
 		return $sum;	
 	}
 
+	public function getSumTransation($type,$from,$to) {
+		$sql="select `date`,sum(amount) as total from transations where `date` between ? and ?
+		and `type`= ? group by `date` order by date desc";
+		$data=DB::select($sql,array($from,$to,$type)); 
+		return $data; 
+	}
+
 }

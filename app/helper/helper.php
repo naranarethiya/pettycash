@@ -17,6 +17,25 @@ function keysImplode($array,$glue=',') {
     return $keys;
 }
 
+/*
+    date: to add in date
+    Add : how many 
+    $type : what to add , min(I),hours(H),day(D),month(M),year(Y), that is 
+*/
+function addDate($date,$add,$type) {
+    $newDate = new DateTime($date);
+    $newDate->add(new dateInterval('P'.$add.$type));
+    $date=$newDate->format('Y-m-d');
+    return $date;
+}
+
+function subDate($date,$add,$type) {
+    $newDate = new DateTime($date);
+    $newDate->sub(new dateInterval('P'.$add.$type));
+    $date=$newDate->format('Y-m-d');
+    return $date;
+}
+
 if (!function_exists('array_column')) {
     /**
      * Returns the values from a single column of the input array, identified by

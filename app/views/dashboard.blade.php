@@ -27,11 +27,15 @@
 			{{json_encode($data['chatData'])}}
 		);
 
-		var weeklyOptions = { title: 'Last Week Transations'};
+		var weeklyOptions = { title: 'Last Week Transations',colors: ['#3fcf7f','#d9534f']};
 
         // Set chart options
-        var todayOptions = { legend: 'none',title:'Today'};
-        var monthlyOptions = { legend: 'none',title:'Monthly'};
+        var todayOptions = { 
+        	legend: 'none',
+        	title:'Today',
+        	colors: ['#3fcf7f','#d9534f']
+        };
+        var monthlyOptions = { legend: 'none',title:'Monthly',colors: ['#3fcf7f','#d9534f']};
 
         // Instantiate and draw our chart, passing in some options.
         var todayDraw = new google.visualization.PieChart(document.getElementById('today'));
@@ -61,14 +65,14 @@
 	</div>
 </div>
 <div class="clearfix"></div>
-<br/></br/>
+<br/>
 <div class="row">
 	<div class="col-lg-12">
 	<div class="col-md-12">
 	<section class="panel">
 		<header class="panel-heading">Last Transations</header>
             <div class="table-responsive">
-				<table class="table b-t text-smal">
+				<table class="table b-t text-smal dataTables">
 					<thead>
 						<tr>
 							<th>Date</th>
@@ -101,3 +105,12 @@
 </div>
 </div>
 </div>
+<link rel="stylesheet" href="{{ URL::asset('js/datatables/jquery.dataTables.min.css') }}">
+<script src="{{ URL::asset('js/datatables/jquery.dataTables.min.js') }}"></script>
+<script>
+	 $('.dataTables').DataTable({
+        "scrollY": "220px",
+        "bsort": true,
+		"bPaginate": false
+    });
+</script>

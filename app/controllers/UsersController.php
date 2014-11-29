@@ -44,7 +44,7 @@ class UsersController extends BaseController
 
 			// attempt to do the login
 			if (Auth::attempt($userdata)) {
-				return Redirect::to("/dashboard")->with('success','Loggedin successfull');
+				return Redirect::to("/dashboard");
 			} 
 			else {
 				return Redirect::to('/login')->with("error","Invalid username or password");;

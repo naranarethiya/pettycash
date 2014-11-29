@@ -8,7 +8,7 @@
       <div class="row">
         <div class="col-xs-6">
             <p class="m-t m-b">
-              Pay to :
+              Pay to : 
               <strong>{{$data->source}}</strong>
               <br>Branch :
               <strong>{{$data->branche}}</strong>
@@ -17,9 +17,9 @@
         <div class="col-xs-6 text-right">
           <p class="m-t m-b">
             Trans.No. :
-              <strong>{{$data->tid}}</strong>
+              <strong>TRANS{{$data->tid}}</strong>
               <br>Date :
-              <?php $date=date('d/m/Y',strtotime($data->date)); ?>
+              <?php $date=date('d ,M Y',strtotime($data->date)); ?>
               <strong>{{$date}}</strong>
             </p>
 
@@ -41,7 +41,7 @@
             <tr>
               <td>1</td>
 
-              <td>{{$data->note}}</td>
+              <td>{{$data->expense_type}} <br/> {{$data->note}}</td>
 
               <td>{{$data->amount}}</td>
             </tr>
@@ -60,15 +60,23 @@
         <div class="line"></div>
         <div class="row">
             <div class="col-xs-4">
-              <strong>Prepared by :</strong><br/><br/>
+              <strong>Prepared by :</strong> <input class="txtBox" type="textbox" /><span style="dispaly:none" class="txtBoxValue"></span><br/><br/>
 
-              <strong>Approved by :</strong>
+              <strong>Approved by :</strong> <input class="txtBox2" type="textbox" /><span style="dispaly:none" class="txtBoxValue2"></span>
             </div>
             <div class="col-xs-4"></div>
             <div class="col-xs-4">
               <strong>Reciever's Signature :</strong>
             </div>
-        </div><br/><br/><br/>
+            
+        </div>
+        <div class="row">
+             <div class="col-xs-11"></div>
+             <div class="col-xs-1">
+                <button onclick="window.print();" class="btn btn-danger printNono">PRINT</button>
+             </div>
+        </div>
+        <br/><br/><br/>
 </section>
  <style type="text/css" media="print">
         @page 
@@ -82,4 +90,32 @@
             background-color:#FFFFFF;
             margin: 5px;  /* the margin on the content before printing */
        }
+       .printNono {
+          display: None;
+       }
     </style>
+<script>
+  $(function() {
+        $('.txtBoxValue').on('click', function() {
+            $(this).hide();
+            $('.txtBox').show();
+        });
+    
+        $('.txtBox').on('blur', function() {
+            var that = $(this);
+            $('.txtBoxValue').text(that.val()).show();
+            that.hide();
+        });
+
+        $('.txtBoxValue2').on('click', function() {
+            $(this).hide();
+            $('.txtBox2').show();
+        });
+    
+        $('.txtBox2').on('blur', function() {
+            var that = $(this);
+            $('.txtBoxValue2').text(that.val()).show();
+            that.hide();
+        });
+    });
+</script>

@@ -27,7 +27,7 @@
 		<div class="form-group">
 			 <label class="col-xs-3 control-label">Amount<span class="text-danger">*</span></label>
 			  <div class="col-xs-8">
-				{{Form::number('amount',Input::old('amount'),array('placeholder'=>'Amount','class'=>'form-control','required'))}}
+				{{Form::text('amount',Input::old('amount'),array('placeholder'=>'Amount','class'=>'form-control','required'))}}
 			  </div>
 		</div>
 		

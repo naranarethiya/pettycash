@@ -38,14 +38,17 @@ Route::group(array(
 
 	/* for branchs setting */
 	Route::get('setting/branch/{id?}','SettingCotroller@branchView')->where('id','[0-9]+');
+	Route::get('setting/branch/delete/{id}','SettingCotroller@branchDelete')->where('id','[0-9]+');
 	Route::post('setting/branch/add/{id?}','SettingCotroller@branchAdd')->where('id','[0-9]+');
 
 	/* for Banks setting */
 	Route::get('setting/bank/{id?}','SettingCotroller@bankView')->where('id','[0-9]+');
+	Route::get('setting/bank/delete/{id}','SettingCotroller@bankDelete')->where('id','[0-9]+');
 	Route::post('setting/bank/add/{id?}','SettingCotroller@bankAdd')->where('id','[0-9]+');
 
 	/* for Expense setting */
 	Route::get('setting/expense/{id?}','SettingCotroller@expenseView')->where('id','[0-9]+');
+	Route::get('setting/expense/delete/{id}','SettingCotroller@expenseTypeDelete')->where('id','[0-9]+');
 	Route::post('setting/expense/add/{id?}','SettingCotroller@expenseAdd')->where('id','[0-9]+');
 
 	/* searching */

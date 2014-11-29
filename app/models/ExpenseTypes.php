@@ -13,6 +13,7 @@ class ExpenseTypes extends Eloquent {
 	public static function getExpenseType($uid,$exid=false) {
 
 		$table=DB::table('expense_type')->where('uid',$uid);
+		$table->where('deleted_at',NULL);
 		if($exid) {
 			$table->where('exid',$exid);
 		}
@@ -34,7 +35,7 @@ class ExpenseTypes extends Eloquent {
 
 	public function addExpenseType($input,$exid=false) {
 		$insert = array();
-		$insert['title']=$input['title'];
+		$insert['title']=strtoupper($input['title']);
 		$insert['note']=$input['note'];
 		$insert['uid']=Auth::user()->uid;
 

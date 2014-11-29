@@ -22,7 +22,7 @@
 		</div>
 
 		<div class="form-group">
-			 <label class="col-xs-3 control-label">Contact Number<span class="text-danger">*</span></label>
+			 <label class="col-xs-3 control-label">Mobile <span class="text-danger">*</span></label>
 			  <div class="col-xs-8">
 				{{Form::number('contact_no',NULL,array('placeholder'=>'Contact Number','class'=>'form-control','required'))}}
 			  </div>
@@ -60,12 +60,12 @@
 	<section class="panel">
 		<header class="panel-heading">All Braches</header>
             <div class="table-responsive">
-				<table class="table table-striped b-t text-small dataTable">
+				<table class="table table-striped b-t text-small dataTables">
 					<thead>
 						<tr>
-							<th>Title</th>
+							<th>Branch</th>
 							<th>Contact Person</th>
-							<th>Contact</th>
+							<th>Mobile</th>
 							<th>Note</th>
 							<th>Action</th>
 						</tr>
@@ -78,19 +78,28 @@
 						<td>{{$row->contact_no}}</td>
 						<td>{{$row->note}}</td>
 						<td>
-							<a href="{{URL::to('setting/branch/'.$row->brid)}}">
-								<i class="fa fa-edit"></i> Edit 
+							<a href="{{URL::to('setting/branch/'.$row->brid)}}" title="Edit">
+								<i class="fa fa-edit"></i> Edit
+							</a>
+							<a href="{{URL::to('setting/branch/delete/'.$row->brid)}}" title="Delete">
+								<i class="fa fa-trash-o"></i> Del
 							</a>
 						</td>
 					</tr>
 					@endforeach
-					@if(count($data) < 1)
-						<tr>
-							<td colspan="4">No data found</td>
-						</tr>
-					@endif
 				</tbody>
 				</table>
 			</div>
 	</section>
 </div>
+
+<link rel="stylesheet" href="{{ URL::asset('js/datatables/jquery.dataTables.min.css') }}">
+<script src="{{ URL::asset('js/datatables/jquery.dataTables.min.js') }}"></script>
+
+<script>
+	 $('.dataTables').DataTable({
+        "scrollY": "350px",
+        "bsort": true,
+		"bPaginate": false
+    });
+</script>

@@ -70,3 +70,12 @@ function loading() {
 	var over='<div id="overlay"><img src="'+base_url+'images/gif-load.gif" id="loading" /></div>'
 	$(over).appendTo('body');
 }
+
+$('a[title="delete"], a[title="Delete"]').click(function(e) {
+	if(confirm("Are You Sure to Delete?")) {
+		return true;
+	}
+	else {
+		return false;
+	}
+});

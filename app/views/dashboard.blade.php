@@ -24,7 +24,7 @@
         ]);
 
 		var weekly = google.visualization.arrayToDataTable(
-			{{json_encode($data['chatData'])}}
+			{{json_encode($data['chatData'],JSON_NUMERIC_CHECK)}}
 		);
 
 		var weeklyOptions = { title: 'Last Week Transations',colors: ['#3fcf7f','#d9534f']};

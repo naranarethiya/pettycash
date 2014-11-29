@@ -42,7 +42,7 @@
 		<div class="form-group">
 			 <label class="col-xs-3 control-label">Amount<span class="text-danger">*</span></label>
 			  <div class="col-xs-8">
-				{{Form::number('amount',Input::old('amount'),array('placeholder'=>'Amount','class'=>'form-control','required'))}}
+				{{Form::text('amount',Input::old('amount'),array('placeholder'=>'Amount','class'=>'form-control','required'))}}
 			  </div>
 		</div>
 		
@@ -87,7 +87,7 @@
 	<section class="panel">
 		<header class="panel-heading">Last Receipts</header>
             <div class="table-responsive">
-				<table class="table table-striped b-t text-small dataTable">
+				<table class="table table-striped b-t text-small dataTables">
 					<thead>
 						<tr>
 							<th>Date</th>
@@ -191,7 +191,4 @@
 			return true;
 		}
 	});
-
-
-
 </script>

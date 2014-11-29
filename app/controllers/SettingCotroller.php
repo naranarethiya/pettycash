@@ -1,6 +1,10 @@
 <?php
 class SettingCotroller extends BaseController {
 	protected $layout = 'layouts.master';
+	public $trans;
+	public function __construct() {
+		$this->trans=new Transations;
+	}	
 
 	public function branchView($brid=false) {
 		$data=UserBranches::getBranch(Auth::user()->uid);
@@ -125,6 +129,26 @@ class SettingCotroller extends BaseController {
 		return Redirect::to('setting/expense');
 	}
 
+	public function branchDelete($brid) {
+		if($this->trans->branchDelete($brid,Auth::user()->uid)) {
+			GlobalHelper::setMessage("Branch Deleted Successfully",'success');
+		}
+		return Redirect::to('/setting/branch');
+	}
+
+	public function bankDelete($bid) {
+		if($this->trans->bankDelete($bid,Auth::user()->uid)) {
+			GlobalHelper::setMessage("Bank Deleted Successfully",'success');
+		}
+		return Redirect::to('/setting/bank');
+	}
+
+	public function expenseTypeDelete($exid) {
+		if($this->trans->expenseTypeDelete($exid,Auth::user()->uid)) {
+			GlobalHelper::setMessage("expense Type Deleted Successfully",'success');
+		}
+		return Redirect::to('/setting/expense');
+	}
 }
 
 ?>

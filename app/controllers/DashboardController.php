@@ -47,7 +47,7 @@ class DashboardController extends BaseController
 				$recArray[$from]=0;
 			}
 			$newDate= new dateTime($from);
-			$newDate=$newDate->format('d');
+			$newDate=$newDate->format('d M');
 			$chartArray[]=array($newDate,$recArray[$from],$expArray[$from]);
 
 			$from = addDate($from,'1','D');

@@ -40,12 +40,12 @@
 	<section class="panel">
 		<header class="panel-heading">Expense type List</header>
             <div class="table-responsive">
-				<table class="table table-striped b-t text-small dataTable">
+				<table class="table table-striped b-t text-small dataTables">
 					<thead>
 						<tr>
 							<th>Title</th>
 							<th>Note</th>
-							<th>Edit</th>
+							<th>Action</th>
 						</tr>
 					</thead>
 				<tbody>
@@ -54,20 +54,30 @@
 						<td>{{$row->title}}</td>
 						<td>{{$row->note}}</td>
 						<td>
-							<a href="{{URL::to('setting/expense/'.$row->exid)}}">
+							<a href="{{URL::to('setting/expense/'.$row->exid)}}" title="Edit">
 								<i class="fa fa-edit"></i> Edit 
+							</a>
+							<a href="{{URL::to('setting/expense/delete/'.$row->exid)}}" title="Delete">
+								<i class="fa fa-trash-o"></i> Del
 							</a>
 						</td>
 					</tr>
 					@endforeach
-					@if(count($data) < 1)
-						<tr>
-							<td colspan="4">No data found</td>
-						</tr>
-					@endif
 				</tbody>
 				</table>
 			</div>
 	</section>
 </div>
+
+
+<link rel="stylesheet" href="{{ URL::asset('js/datatables/jquery.dataTables.min.css') }}">
+<script src="{{ URL::asset('js/datatables/jquery.dataTables.min.js') }}"></script>
+
+<script>
+	 $('.dataTables').DataTable({
+        "scrollY": "350px",
+        "bsort": true,
+		"bPaginate": false
+    });
+</script>
 

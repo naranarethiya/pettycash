@@ -1,0 +1,5 @@
+ALTER TABLE  `banks` ADD  `deleted_at` TIMESTAMP NULL AFTER  `updated_at`
+
+ALTER TABLE  `branches` ADD  `deleted_at` TIMESTAMP NULL AFTER  `updated_at`
+
+ALTER TABLE  `expense_type` ADD  `deleted_at` TIMESTAMP NULL AFTER  `updated_at`

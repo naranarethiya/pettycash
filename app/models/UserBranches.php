@@ -13,6 +13,7 @@ class UserBranches extends Eloquent {
 	public static function getBranch($uid,$brid=false) {
 
 		$table=DB::table('branches')->where('uid',$uid);
+		$table->where('deleted_at',NULL);
 		if($brid) {
 			$table->where('brid',$brid);
 		}
@@ -34,8 +35,8 @@ class UserBranches extends Eloquent {
 
 	public function addBranch($input,$brid=false) {
 		$branch = array();
-		$branch['title']=$input['title'];
-		$branch['person']=$input['person'];
+		$branch['title']=strtoupper($input['title']);
+		$branch['person']=strtoupper($input['person']);
 		$branch['contact_no']=$input['contact_no'];
 		$branch['note']=$input['note'];
 		$branch['uid']=Auth::user()->uid;

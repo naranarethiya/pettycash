@@ -13,6 +13,7 @@ class UserBanks extends Eloquent {
 	public static function getBank($uid,$bid=false) {
 
 		$table=DB::table('banks')->where('uid',$uid);
+		$table->where('deleted_at',NULL);
 		if($bid) {
 			$table->where('bid',$bid);
 		}
@@ -36,7 +37,7 @@ class UserBanks extends Eloquent {
 
 	public function addBank($input,$bid=false) {
 		$bank = array();
-		$bank['title']=$input['title'];
+		$bank['title']=strtoupper($input['title']);
 		$bank['ac_number']=$input['ac_number'];
 		$bank['note']=$input['note'];
 		$bank['uid']=Auth::user()->uid;

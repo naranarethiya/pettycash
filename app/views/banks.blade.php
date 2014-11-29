@@ -47,13 +47,13 @@
 	<section class="panel">
 		<header class="panel-heading">Bank List</header>
             <div class="table-responsive">
-				<table class="table table-striped b-t text-small dataTable">
+				<table class="table dataTables table-striped b-t text-small">
 					<thead>
 						<tr>
-							<th>Title</th>
+							<th>Bank</th>
 							<th>A/c No.</th>
 							<th>Note</th>
-							<th>Edit</th>
+							<th>Action</th>
 						</tr>
 					</thead>
 				<tbody>
@@ -63,20 +63,29 @@
 						<td>{{$row->ac_number}}</td>
 						<td>{{$row->note}}</td>
 						<td>
-							<a href="{{URL::to('setting/bank/'.$row->bid)}}">
-								<i class="fa fa-edit"></i> Edit 
+							<a href="{{URL::to('setting/bank/'.$row->bid)}}" title="Edit">
+								<i class="fa fa-edit"></i> Edit
+							</a>
+							<a href="{{URL::to('setting/bank/delete/'.$row->bid)}}" title="Delete">
+								<i class="fa fa-trash-o"></i> Del
 							</a>
 						</td>
 					</tr>
 					@endforeach
-					@if(count($data) < 1)
-						<tr>
-							<td colspan="4">No data found</td>
-						</tr>
-					@endif
 				</tbody>
 				</table>
 			</div>
 	</section>
 </div>
+
+<link rel="stylesheet" href="{{ URL::asset('js/datatables/jquery.dataTables.min.css') }}">
+<script src="{{ URL::asset('js/datatables/jquery.dataTables.min.js') }}"></script>
+
+<script>
+	 $('.dataTables').DataTable({
+        "scrollY": "350px",
+        "bsort": true,
+		"bPaginate": false
+    });
+</script>
 

@@ -4,6 +4,7 @@ use Illuminate\Auth\UserTrait;
 use Illuminate\Auth\UserInterface;
 use Illuminate\Auth\Reminders\RemindableTrait;
 use Illuminate\Auth\Reminders\RemindableInterface;
+use Illuminate\Database\Eloquent\SoftDeletingTrait;
 
 class Transations extends Eloquent implements UserInterface, RemindableInterface {
 
@@ -14,6 +15,7 @@ class Transations extends Eloquent implements UserInterface, RemindableInterface
 	 */
 	protected $table = 'transations';
 	protected $primaryKey = "tid";
+	protected $dates = ['deleted_at'];
 
 	public static function add_transations() {
 		$type=Input::get('type');
@@ -42,7 +44,7 @@ class Transations extends Eloquent implements UserInterface, RemindableInterface
 	public static function addExpense($input,$uid) {
 
 		$insert['brid']=$input['brid'];
-		$insert['source']=$input['source'];
+		$insert['source']=strtoupper($input['source']);
 		$insert['exid']=$input['exid'];
 		//$insert['date']=$input['date'];
 		$insert['date']=date('Y-m-d');
@@ -142,8 +144,14 @@ class Transations extends Eloquent implements UserInterface, RemindableInterface
 			}
 		}
 
-		$data=$db->get();
-		return $data;
+		try {
+			$data=$db->get();
+			return $data;
+		}
+		catch(Exception $e) {
+			GlobalHelper::setMessage($e->getMessage);
+			return false;
+		}
 
 	}
 
@@ -220,8 +228,13 @@ class Transations extends Eloquent implements UserInterface, RemindableInterface
 				$db->where($col,$val);
 			}
 		}
-
-		return $data=$db->get();
+		try {
+			return $data=$db->get();
+		} 
+		catch(Exception $e) {
+			GlobalHelper::setMessage($e->getMessage);
+			return false;
+		}
 	}
 
 	public function closingBalance($uid,$date) {
@@ -253,6 +266,7 @@ class Transations extends Eloquent implements UserInterface, RemindableInterface
 	}
 
 	public static function total_today_in() {
+		
 		$sum=DB::table('transations')
 			->where('type','receipt')
 			->whereNull('deleted_at')
@@ -273,30 +287,92 @@ class Transations extends Eloquent implements UserInterface, RemindableInterface
 	public static function total_month_out() {
 		$first=date('Y-m-01',strtotime('this month'));
 		$last=date('Y-m-t',strtotime('this month'));
-		$sum=DB::table('transations')
-			->whereNull('deleted_at')
-			->where('type','expense')
-			->whereBetween('date',array($first,$last))
-			->sum('amount');
-		return $sum;
+		try {
+			$sum=DB::table('transations')
+				->whereNull('deleted_at')
+				->where('type','expense')
+				->whereBetween('date',array($first,$last))
+				->sum('amount');
+			return $sum;
+		} 
+		catch(Exception $e) {
+			GlobalHelper::setMessage($e->getMessage);
+			return false;
+		}
 	}
 
 	public static function total_month_in() {
 		$first=date('Y-m-01',strtotime('this month'));
 		$last=date('Y-m-t',strtotime('this month'));
-		$sum=DB::table('transations')
-			->whereNull('deleted_at')
-			->where('type','receipt')
-			->whereBetween('date',array($first,$last))
-			->sum('amount');
-		return $sum;	
+		try {
+			$sum=DB::table('transations')
+				->whereNull('deleted_at')
+				->where('type','receipt')
+				->whereBetween('date',array($first,$last))
+				->sum('amount');
+			return $sum;
+		} 
+		catch(Exception $e) {
+			GlobalHelper::setMessage($e->getMessage);
+			return false;
+		}
 	}
 
 	public function getSumTransation($type,$from,$to) {
 		$sql="select `date`,sum(amount) as total from transations where `date` between ? and ?
 		and `type`= ? group by `date` order by date desc";
-		$data=DB::select($sql,array($from,$to,$type)); 
-		return $data; 
+		try {
+			$data=DB::select($sql,array($from,$to,$type)); 
+			return $data; 
+		} 
+		catch(Exception $e) {
+			GlobalHelper::setMessage($e->getMessage);
+			return false;
+		}
+	}
+
+	public function branchDelete($brid,$uid) {
+		try {
+			DB::table('branches')
+			->where('brid',$brid)
+			->where('uid',$uid)
+			->update(array('deleted_at'=>date('Y-m-d h:i:s')));
+			return true;
+
+		} 
+		catch(Exception $e) {
+			GlobalHelper::setMessage($e->getMessage());
+		}
+		return false;
+	}
+
+	public function bankDelete($bid,$uid) {
+		try {
+			DB::table('banks')
+			->where('bid',$bid)
+			->where('uid',$uid)
+			->update(array('deleted_at'=>date('Y-m-d h:i:s')));
+			return true;
+		} 
+		catch(Exception $e) {
+			GlobalHelper::setMessage($e->getMessage());
+		}
+		return false;
+	}
+
+	public function expenseTypeDelete($exid,$uid) {
+		try {
+			DB::table('expense_type')
+			->where('exid',$exid)
+			->where('uid',$uid)
+			->update(array('deleted_at'=>date('Y-m-d h:i:s')));
+			return true;
+
+		} 
+		catch(Exception $e) {
+			GlobalHelper::setMessage($e->getMessage());
+		}
+		return false;
 	}
 
 }

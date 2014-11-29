@@ -86,6 +86,12 @@
         </table>
     </div>
       </div>
+      <div class="row">
+             <div class="col-xs-11"></div>
+             <div class="col-xs-1">
+                <button onclick="window.print();" class="btn btn-danger printNono">PRINT</button>
+             </div>
+        </div>
 </section>
 
  <style type="text/css" media="print">
@@ -100,4 +106,8 @@
 	background-color:#FFFFFF;
 	margin: 5px;  /* the margin on the content before printing */
 	}
+   .printNono {
+          display: None;
+       }
+
 	</style>

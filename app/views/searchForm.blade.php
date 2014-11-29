@@ -90,7 +90,7 @@
 		<div class="form-group">
 			<div class="col-md-6">
 				<input type="reset" class="btn btn-white" value="Reset" />
-				<input type="submit" class="btn btn-primary" Value="Submit" />
+				<input type="submit" name="submit" id="searchSubmit" class="btn btn-primary" Value="Submit" />
 			</div>
 		</div>
 		</div>

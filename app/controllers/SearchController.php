@@ -39,7 +39,17 @@ class SearchController extends BaseController {
 		}
 		$trans = new Transations;
 		$data['transations']=$trans->searchTransation(Auth::user()->uid,Input::all());
+		if(Input::get('submit')=='export') {
+			$arrFirstRow = array('Transation id','Date','Source/ Pay to','Branch','Amount','Closing Balance','Expense Type','Reference Number','Note','Payment Type','Bank Detail');
+			$arrColumns = array('tid', 'date', 'source', 'branche', 'amount','balance', 'expense_type', 'ref_no','note','payment_type', 'bank');
 
+			$options = array(
+				'columns' => $arrColumns,
+				'firstRow' => $arrFirstRow,
+			);
+			$Files = new GlobalHelper;
+  			return $Files->convertToCSV($data['transations'], $options);
+		}
 
 		$this->layout->title="Search Result";
 		

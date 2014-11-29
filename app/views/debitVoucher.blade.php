@@ -1,7 +1,7 @@
  <section class="padder m-t bg-white">
       <div class="row">
         <div class="col-xs-3"></div>
-        <div class="col-xs-6" style="text-align:center"><h2>DEBIT VOUCHER</h2></div>
+        <div class="col-xs-6" style="text-align:center"><h3>DEBIT VOUCHER</h3></div>
         <div class="col-xs-3"></div>
       </div>
 
@@ -103,7 +103,7 @@
     
         $('.txtBox').on('blur', function() {
             var that = $(this);
-            $('.txtBoxValue').text(that.val()).show();
+            $('.txtBoxValue').text(that.val().toUpperCase()).show();
             that.hide();
         });
 
@@ -114,7 +114,7 @@
     
         $('.txtBox2').on('blur', function() {
             var that = $(this);
-            $('.txtBoxValue2').text(that.val()).show();
+            $('.txtBoxValue2').text(that.val().toUpperCase()).show();
             that.hide();
         });
     });

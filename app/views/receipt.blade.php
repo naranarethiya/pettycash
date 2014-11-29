@@ -3,12 +3,12 @@
 	<header class="panel-heading">Add Receipt</header>
 	<div id="formContainer">
 	<form class="form-horizontal" method="post" action="{{URL::to('receipt/add')}}" style="margin-top:20px" id="smsForm">
-		<div class="form-group">
+		<!--<div class="form-group">
 			 <label class="col-xs-3 control-label">Trans.ID</label>
 			  <div class="col-xs-8">
 				{{Form::text('id','20',array('class'=>'form-control','readonly'))}}
 			  </div>
-		</div>
+		</div>-->
 
 		<div class="form-group">
 			 <label class="col-xs-3 control-label">Source <span class="text-danger">*</span></label>

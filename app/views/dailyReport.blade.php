@@ -1,8 +1,8 @@
  <section class="padder m-t bg-white">
       <div class="row">
         <div class="col-xs-3"></div>
-        <?php $date=date('d/m/Y',strtotime($date)); ?>
-        <div class="col-xs-6" style="text-align:center"><h2>{{$date}}</h2></div>
+        <?php $date=date('d M Y',strtotime($date)); ?>
+        <div class="col-xs-6" style="text-align:center"><h3>{{$date}}</h3></div>
         <div class="col-xs-3"></div>
       </div>
 

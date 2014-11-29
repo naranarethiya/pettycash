@@ -1,4 +1,6 @@
 <?php
+
+use Illuminate\Support\Facades\Response;
 class GlobalHelper {
     /**
      * This function will be used to spit out the variable dump.
@@ -159,13 +161,16 @@ class GlobalHelper {
         }
         return $result;
     }
+
     public static function last_query() {
         $queries = DB::getQueryLog();
         return $last_query = end($queries);
     }
+
     public function print_last_query() {
         $this->dsm($this->last_query());
     }
+
     public static function convertStringToHTML($string)
     {
         $specialChars = array(
@@ -176,5 +181,51 @@ class GlobalHelper {
             $string = str_replace($char, $code, $string);
         }
         return $string;
+    }
+
+    function convertToCSV($data, $options)
+    {
+
+        // setting the csv header
+        if (is_array($options) && isset($options['headers']) && is_array($options['headers'])) {
+            $headers = $options['headers'];
+        } 
+        else {
+            $filename=date('d-M').".csv";
+            $headers = array(
+                'Content-Type' => 'text/csv',
+                'Content-Disposition' => 'attachment; filename="'.$filename.'"'
+            );
+        }
+
+        $output = '';
+
+        // setting the first row of the csv if provided in options array
+        if (isset($options['firstRow']) && is_array($options['firstRow'])) {
+            $output .= implode(',', $options['firstRow']);
+            $output .= "\n"; // new line after the first line
+        }
+
+        // setting the columns for the csv. if columns provided, then fetching the or else object keys
+        if (isset($options['columns']) && is_array($options['columns'])) {
+            $columns = $options['columns'];
+        }
+        else {
+            $objectKeys = get_object_vars($data[0]);
+            $columns = array_keys($objectKeys);
+        }
+
+        // populating the main output string
+        foreach ($data as $row) {
+            foreach ($columns as $column) {
+                $output .= str_replace(',', ';', $row->$column);
+                $output .= ',';
+            }
+            $output .= "\n";
+        }
+
+        // calling the Response class make function inside my class to send the response.
+        // if our class is not a controller, this is required.
+        return Response::make($output, 200, $headers);
     }
 }

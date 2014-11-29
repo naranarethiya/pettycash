@@ -44,7 +44,7 @@
         var monthlyDraw = new google.visualization.PieChart(document.getElementById('monthly'));
         monthlyDraw.draw(monthly, monthlyOptions);      
 
-        var weeklyDraw = new google.visualization.ColumnChart(document.getElementById('weekly'));
+        var weeklyDraw = new google.visualization.LineChart(document.getElementById('weekly'));
   		weeklyDraw.draw(weekly, weeklyOptions);
       }
 </script>

@@ -5,6 +5,8 @@ class DashboardController extends BaseController
 	protected $layout = 'layouts.master';
 
 	public function index() {
+		//$data=User::find(2)->transations;
+		//dsm($data);die;
 		$this->layout->title="Wellcome to dashboard";
 		$data['today_in']=Transations::total_today_in();
 		$data['month_in']=Transations::total_month_in();

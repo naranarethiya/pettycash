@@ -1,6 +1,7 @@
 <!-- nav --> 
 	<nav id="nav" class="nav-primary hidden-xs nav-vertical"> 
-		<ul class="nav affix-top" data-spy="affix" data-offset-top="50"> 
+		<ul class="nav affix-top" data-spy="affix" data-offset-top="50">
+			@if(Auth::user()->user_type=='user')
 			<li><a href="{{URL::to('/dashboard')}}"><i class="fa fa-dashboard fa-lg"></i><span>Dashboard</span></a></li>
 			<li><a href="{{URL::to('/receipt')}}"><i class="fa fa-sign-in fa-lg"></i><span>Money In</span></a></li>
 			<li><a href="{{URL::to('/expense')}}"><i class="fa fa-reply fa-lg"></i><span>Money Out</span></a></li> 
@@ -18,5 +19,9 @@
 					<li><a href="{{URL::to('setting/bank')}}">Bank Account</a></li> 
 				</ul> 
 			</li> 
+			@endif
+			@if(Auth::user()->user_type=='admin')
+				<li><a href="{{URL::to('user/add')}}"><i class="fa fa-user fa-lg"></i><span>Users</span></a></li> 
+			@endif
 		</ul>
 	</nav>

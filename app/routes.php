@@ -15,6 +15,16 @@
 Route::get('/', 'UsersController@login');
 Route::get('login', 'UsersController@login');
 
+/* Admin pages */
+Route::group(array(
+	'before' => 'Admin'
+),function() {
+	Route::get('user/list','UsersController@list');
+	Route::get('user/add/{id?}','UsersController@addUserForm')->where('id','[0-9]+');
+	Route::post('user/add/{id?}','UsersController@addUser')->where('id','[0-9]+');
+	Route::get('user/delete','UsersController@delete');
+});
+
 /* Secure pages */
 Route::group(array(
     'before' => 'auth'

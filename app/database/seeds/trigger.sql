@@ -21,3 +21,12 @@ CREATE TRIGGER `BI_balance` BEFORE INSERT ON `transations`
 END//
 
 DELIMITER ;
+
+DELIMITER ||
+CREATE TRIGGER `AI_insert` AFTER INSERT ON `users`
+ FOR EACH ROW BEGIN
+	BEGIN
+	IF(NEW.user_type = 'user') THEN
+		insert into balance(uid,amount) value(NEW.uid,'0');
+	END IF;
+END;||

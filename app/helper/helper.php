@@ -29,6 +29,12 @@ function addDate($date,$add,$type) {
     return $date;
 }
 
+
+/*
+    date: to add in date
+    Add : how many 
+    $type : what to add , min(I),hours(H),day(D),month(M),year(Y), that is 
+*/
 function subDate($date,$add,$type) {
     $newDate = new DateTime($date);
     $newDate->sub(new dateInterval('P'.$add.$type));

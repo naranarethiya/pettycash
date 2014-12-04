@@ -12,4 +12,8 @@ class UserBalance extends Eloquent {
 		$balance=UserBalance::find($uid);
 		return $balance->amount;
 	}
+
+	public function user() {
+		return $this->belongsTo('user','uid','uid');
+	}
 }

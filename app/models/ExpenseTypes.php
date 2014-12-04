@@ -10,6 +10,10 @@ class ExpenseTypes extends Eloquent {
 	protected $table = 'expense_type';
 	protected $primaryKey = "exid";
 
+	public function user() {
+		return $this->belongsTo('users','uid');
+	}
+
 	public static function getExpenseType($uid,$exid=false) {
 
 		$table=DB::table('expense_type')->where('uid',$uid);

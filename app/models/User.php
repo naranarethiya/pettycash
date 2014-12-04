@@ -9,11 +9,6 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 
 	use UserTrait, RemindableTrait;
 
-	/**
-	 * The database table used by the model.
-	 *
-	 * @var string
-	 */
 	protected $table = 'users';
 
 	/**
@@ -24,4 +19,19 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 	protected $hidden = array('password', 'remember_token');
 	protected $primaryKey = "uid";
 
+	public function transations() {
+		return $this->hasMany('transations','uid','uid');
+	}
+
+	public function banks() {
+		return $this->hasMany('banks','bid','bid');
+	}
+
+	public function branch() {
+		return $this->hasMany('branches','brid','brid');
+	}
+
+	public function expense_type() {
+		return $this->hasMany('expense_type','exid','exid');
+	}
 }

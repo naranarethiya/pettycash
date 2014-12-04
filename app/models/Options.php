@@ -12,8 +12,12 @@ class Options extends Eloquent implements UserInterface, RemindableInterface {
 	/**
 	 * @var string
 	 */
-	protected $table = 'Branch';
+	protected $table = 'branch';
 	protected $primaryKey = "brid";
+
+	public function user() {
+		return $this->belongsTo('users','uid');
+	}
 
 	public function get_branch($uid,$bid=false) {
 

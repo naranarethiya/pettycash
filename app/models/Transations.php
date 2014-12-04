@@ -17,6 +17,24 @@ class Transations extends Eloquent implements UserInterface, RemindableInterface
 	protected $primaryKey = "tid";
 	protected $dates = ['deleted_at'];
 
+	public function user() {
+		return $this->belongsTo('users','uid','uid');
+	}
+
+	public function branche() {
+		return $this->belongsTo('branches','brid','brid');
+	}
+
+	public function bank() {
+		return $this->belongsTo('banks','bid','bid');
+	}
+
+	public function expense_type() {
+		return $this->belongsTo('expense_type','exid');
+	}
+
+
+
 	public static function add_transations() {
 		$type=Input::get('type');
 		$date=Input::get('date');

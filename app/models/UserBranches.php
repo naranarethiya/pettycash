@@ -10,6 +10,10 @@ class UserBranches extends Eloquent {
 	protected $table = 'branches';
 	protected $primaryKey = "brid";
 
+	public function user() {
+		return $this->belongsTo('users','uid','uid');
+	}
+
 	public static function getBranch($uid,$brid=false) {
 
 		$table=DB::table('branches')->where('uid',$uid);

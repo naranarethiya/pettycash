@@ -1,4 +1,4 @@
-<div class="col-md-6">
+<div class="col-md-7">
 <section class="panel">
 	<header class="panel-heading">Add Receipt</header>
 	<div id="formContainer">
@@ -49,7 +49,7 @@
 </section>
 </div>
 
-<div class="col-md-6">
+<div class="col-md-5">
 	<section class="panel">
 		<header class="panel-heading">Last Receipts</header>
             <div class="table-responsive">
@@ -65,7 +65,7 @@
 				<tbody>
 					@foreach($data as $row)
 					<tr>
-						<td>{{$row->date}}</td>
+						<td>{{formatDate($row->date,'d, M')}}</td>
 						<td>{{$row->source}}</td>
 						<td>{{$row->note}}</td>
 						<td>{{$row->amount}}</td>

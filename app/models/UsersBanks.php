@@ -28,7 +28,8 @@ class UserBanks extends Eloquent {
 		$data=self::getBank($uid);
 		$combo=array_column($data,'title','bid');
 		if($selectBox) {
-			array_unshift($combo, "--Select Bank--");	
+			$combo[0]="Select Bank";
+			ksort($combo);
 		}
 		return $combo;
 	}

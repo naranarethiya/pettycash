@@ -23,7 +23,7 @@ class TransationsController extends BaseController {
 		$data['branchCombo']=UserBranches::branchCombo(Auth::user()->uid);
 		$data['bankCombo']=UserBanks::bankCombo(Auth::user()->uid);
 		$data['expTypeCombo']=ExpenseTypes::expenseCombo(Auth::user()->uid);
-
+		//dsm($data);
 		$this->layout->content = View::make('expense')
 			->with('data',$data);
 	}
@@ -61,7 +61,6 @@ class TransationsController extends BaseController {
 	}
 
 	public function addExpense() {
-
 		/* get branch,expense type id by comma seperated for validation */
 		$branchIds=keysImplode(UserBranches::branchCombo(Auth::user()->uid,false));
 		$expenseIds=keysImplode(ExpenseTypes::expenseCombo(Auth::user()->uid,false));
@@ -74,17 +73,7 @@ class TransationsController extends BaseController {
 		$rules=array(
 			'source'=>'required',
 			'brid'=>'required|in:'.$branchIds,
-			'exid'=>'required|in:'.$expenseIds,
-			/*'date'=>'required|date_format:Y-m-d',*/
-			'amount'=>'required|numeric|max:'.$balance,
-			'payment_type'=>'required|in:cash,cheque'
 		);
-
-		
-
-		if(Input::get('payment_type')=='cheque') {
-			$rules['bid']='required|in:'.$bankIds;
-		}
 
 		$messages=array(
 			'source.required'=>'Pay to is required',
@@ -93,17 +82,40 @@ class TransationsController extends BaseController {
 			'date.date_format'=>'Invalid date format, format must YYYY-MM-DD',
 			'amount.max' => 'Expense Amount not greater than available balace',
 			'payment_type.in'=>'Invalid payment type',
-			'bid.in'=>'Invalid Bank selected'
+			'bid.in'=>'Invalid Bank selected',
+			'total.max'=>'Total Amount can not greater than available balace'
 		);
 
-		$validator=Validator::make(Input::all(),$rules,$messages);
+		$count=count(Input::get('exid'));
+
+		for($i=0;$i<$count;$i++) {
+			$rules['exid.'.$i]='required|in:'.$expenseIds;
+			$rules['amount.'.$i]='required|numeric|max:'.$balance;
+			$rules['payment_type.'.$i]='required|in:cash,cheque';
+			$payment_type=Input::get('payment_type');
+			if($payment_type[$i]=='cheque') {
+				$rules['bid.'.$i]='required|in:'.$bankIds;
+				$messages['bid.'.$i.'.in']='Invalid bank selected';
+			}
+			$messages['exid.'.$i.'.in']='Invalid Expense type selected';
+			$messages['amount.'.$i.'.max']='Expense Amount not greater than available balace';
+			$messages['payment_type.'.$i.'.in']='Invalid payment type';
+		}
+
+		$total=array_sum(Input::get('amount'));
+		$rules['total']='max:'.$balance;
+		$input=Input::all();
+		$input['total']=$total;
+
+		$validator=Validator::make($input,$rules,$messages);
+		$messages = $validator->messages();
 		if($validator->fails()) {
 			return Redirect::back()
 				->withInput()
 				->withErrors($validator);
 		}
 		else {
-			if($insertId=Transations::addExpense(Input::all(),Auth::user()->uid)) {
+			if($insertId=Transations::addExpense($input,Auth::user()->uid)) {
 				return Redirect::to('printDebitVoucher/'.$insertId);
 			}
 			else {
@@ -175,7 +187,6 @@ class TransationsController extends BaseController {
 			return Redirect::to("dashboard")
 				->withErrors("Invalid transations Id");
 		}
-		$data=$data[0];
 		$this->layout->title="";
 		$this->layout->content=View::make('debitVoucher')
 			->with('data',$data);

@@ -9,17 +9,17 @@
         <div class="col-xs-6">
             <p class="m-t m-b">
               Pay to : 
-              <strong>{{$data->source}}</strong>
+              <strong>{{$data[0]->source}}</strong>
               <br>Branch :
-              <strong>{{$data->branche}}</strong>
+              <strong>{{$data[0]->branche}}</strong>
             </p>
         </div>
         <div class="col-xs-6 text-right">
           <p class="m-t m-b">
             Trans.No. :
-              <strong>TRANS{{$data->tid}}</strong>
+              <strong>TRANS{{$data[0]->tid}}</strong>
               <br>Date :
-              <?php $date=date('d ,M Y',strtotime($data->date)); ?>
+              <?php $date=date('d ,M Y',strtotime($data[0]->date)); ?>
               <strong>{{$date}}</strong>
             </p>
 
@@ -38,33 +38,36 @@
             </tr>
           </thead>
           <tbody>
+            <?php $i=1; ?>
+            @foreach($data as $row)
             <tr>
-              <td>1</td>
+              <td>{{$i}}</td>
 
-              <td>{{$data->expense_type}} <br/> {{$data->note}}</td>
+              <td>{{$row->expense_type}} <br/> {{$row->note}}</td>
 
-              <td>{{$data->amount}}</td>
+              <td>{{$row->amount}}</td>
             </tr>
-            <tr>
-              <td colspan="2" class="text-right">
-                <strong>
-                  Total
-                </strong>
-              </td>
-              <td>
-                <strong>{{$data->amount}}</strong>
-              </td>
-            </tr>
+            <?php $i++; ?>
+            @endforeach
           </tbody>
+          <tfoot>
+            <tr>
+              <th>TOTAL</th>
+              <th>{{convert_number_to_words($data[0]->total_amount)}}</th>
+              <th>
+                <strong>{{$data[0]->total_amount}}</strong>
+              </th>
+            </tr>
+          </tfoot>
         </table>
         <div class="line"></div>
         <div class="row">
-            <div class="col-xs-4">
+            <div class="col-xs-5">
               <strong>Prepared by :</strong> <input class="txtBox" type="textbox" /><span style="dispaly:none" class="txtBoxValue"></span><br/><br/>
 
               <strong>Approved by :</strong> <input class="txtBox2" type="textbox" /><span style="dispaly:none" class="txtBoxValue2"></span>
             </div>
-            <div class="col-xs-4"></div>
+            <div class="col-xs-3"></div>
             <div class="col-xs-4">
               <strong>Reciever's Signature :</strong>
             </div>

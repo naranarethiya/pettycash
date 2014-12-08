@@ -32,7 +32,8 @@ class ExpenseTypes extends Eloquent {
 		$data=self::getExpenseType($uid);
 		$combo=array_column($data,'title','exid');
 		if($selectBox) {
-			array_unshift($combo, "--Select Expense Type--");	
+			$combo[0]="Select Expense Type";
+			ksort($combo);
 		}
 		return $combo;
 	}

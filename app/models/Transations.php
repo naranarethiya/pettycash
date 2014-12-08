@@ -63,27 +63,35 @@ class Transations extends Eloquent implements UserInterface, RemindableInterface
 
 		$insert['brid']=$input['brid'];
 		$insert['source']=strtoupper($input['source']);
-		$insert['exid']=$input['exid'];
-		//$insert['date']=$input['date'];
 		$insert['date']=date('Y-m-d');
-		$insert['amount']=$input['amount'];
+		$insert['amount']=$input['total'];
 		$insert['note']=$input['note'];
 		$insert['uid']=$uid;
 		$insert['type']='expense';
-		$insert['payment_type']=$input['payment_type'];
 		$insert['created_at']=date('Y-m-d h:i:s');
-
-		if($input['payment_type']=='cheque') {
-			$insert['bid']=$input['bid'];
-		}
-
+		
 		try {
+			DB::beginTransaction();
 			$insertId=DB::table('transations')
 				->insertGetId($insert);
-			/*GlobalHelper::setMessage("Expense Added successfully",'success');*/
+
+			$count=count($input['amount']);
+
+			for($i=0;$i<$count;$i++) {
+				$item['tid']=$insertId;
+				$item['exid']=$input['exid'][$i];	
+				$item['payment_type']=$input['payment_type'][$i];
+				$item['amount']=$input['amount'][$i];
+				if($input['payment_type'][$i]=='cheque') {
+					$item['bid']=$input['bid'][$i];
+				}
+				DB::table('transations_item')->insert($item);
+			}
+			DB::commit();
 			return $insertId;
 		}
 		catch(Exception $e) {
+			DB::rollback();
 			GlobalHelper::setMessage($e->getMessage());
 			return false;
 		}
@@ -145,9 +153,10 @@ class Transations extends Eloquent implements UserInterface, RemindableInterface
 
 		/* buid query */
 		$db=DB::table('transations')
-			->select('transations.*','banks.title as bank','expense_type.title as expense_type','branches.title as branche')
-			->leftJoin('banks','transations.bid','=','banks.bid')
-			->leftJoin('expense_type','transations.exid','=','expense_type.exid')
+			->select('transations.tid','transations.brid','transations.source','transations.uid','transations.ref_no','transations.type','transations.note','transations.balance','transations.amount as total_amount','transations.date','transations_item.*','banks.title as bank','expense_type.title as expense_type','branches.title as branche')
+			->leftJoin('transations_item','transations.tid','=','transations_item.tid')
+			->leftJoin('banks','transations_item.bid','=','banks.bid')
+			->leftJoin('expense_type','transations_item.exid','=','expense_type.exid')
 			->leftJoin('branches','transations.brid','=','branches.brid')
 			->where('transations.type','expense')
 			->where('transations.uid',$uid)
@@ -195,9 +204,10 @@ class Transations extends Eloquent implements UserInterface, RemindableInterface
 
 		/* buid query */
 		$db=DB::table('transations')
-			->select('transations.*','banks.title as bank','expense_type.title as expense_type','branches.title as branche')
-			->leftJoin('banks','transations.bid','=','banks.bid')
-			->leftJoin('expense_type','transations.exid','=','expense_type.exid')
+			->select('transations.tid','transations.brid','transations.source','transations.uid','transations.ref_no','transations.type','transations.note','transations.balance','transations.amount as total_amount','transations.date','transations_item.*','banks.title as bank','expense_type.title as expense_type','branches.title as branche')
+			->leftJoin('transations_item','transations.tid','=','transations_item.tid')
+			->leftJoin('banks','transations_item.bid','=','banks.bid')
+			->leftJoin('expense_type','transations_item.exid','=','expense_type.exid')
 			->leftJoin('branches','transations.brid','=','branches.brid')
 			->where('transations.uid','=',$uid)
 			->orderby($orderby,$order);

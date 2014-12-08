@@ -75,21 +75,23 @@
 				<table class="table b-t text-smal dataTables">
 					<thead>
 						<tr>
+							<th>Source/Pay to</th>
+							<th>Amount</th>
+							<th>Balace</th>
 							<th>Date</th>
 							<th>Trans. Type</th>
 							<th>Reason/Detail</th>
-							<th>Amount</th>
-							<th>Balace</th>
 						</tr>
 					</thead>
 				<tbody>
 					@foreach($data['transations'] as $row)
 					<tr class="@if($row->type=='expense') danger @else success @endif">
+						<td>{{ucwords($row->source)}}</td>
+						<td>{{$row->amount}}</td>
+						<td>{{$row->balance}}</td>
 						<td>{{$row->date}}</td>
 						<td>{{ucwords($row->type)}}</td>
 						<td>{{$row->description}}</td>
-						<td>{{$row->amount}}</td>
-						<td>{{$row->balance}}</td>
 					</tr>
 					@endforeach
 					@if(count($data) < 1)

@@ -32,7 +32,8 @@ class UserBranches extends Eloquent {
 		$data=self::getBranch($uid);
 		$combo=array_column($data,'title','brid');
 		if($selectBox) {
-			array_unshift($combo, "--Select Branch--");	
+			$combo[0]="Select Branch";
+			ksort($combo);
 		}
 		return $combo;
 	}

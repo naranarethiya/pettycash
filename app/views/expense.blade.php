@@ -1,4 +1,7 @@
-<div class="col-md-6">
+<?php 
+	$oldData=Input::old('amount.0');
+?>
+<div class="col-md-7">
 <section class="panel">
 	<header class="panel-heading">Add Expense</header>
 	<div id="formContainer">
@@ -24,49 +27,54 @@
 			  	{{Form::select('brid',$data['branchCombo'],NULL,array('class'=>'form-control','required','pattern'=>'^[1-9][0-9]*$'))}}
 			  </div>
 		</div>
+		<a href="javascript:addRow();" style="color:green;margin-left:10px" title="Add transation"><i class="fa fa-plus fa-lg"></i> Add</a>
+		<table class="table table-bordered" id="transContainer" style="margin:5px;width:98%">
+			<thead>
+				<tr>
+					<th>Exp. Type <span class="text-danger">*</span></th>
+					<th>Amount <span class="text-danger">*</span></th>
+					<th>Payment <span class="text-danger">*</span></th>
+					<th>Bank</th>
+					<th>#</th>
+				</tr>
+			</thead>
+			<tbody>
+				
+				@if($oldData =='')
+					<tr id="rowClon">
+						<td>{{Form::select('exid[]',$data['expTypeCombo'],NULL,array('class'=>'form-control','required'))}}</td>
+						<td>{{Form::text('amount[]',NULL,array('placeholder'=>'Amount','class'=>'form-control','required'))}}</td>
+						<td>
+								{{Form::select('payment_type[]',array('cash'=>'Cash','cheque'=>'Cheque'),NULL,array('class'=>'form-control','required'))}}
+						</td>
+						<td>
+							{{Form::select('bid[]',$data['bankCombo'],NULL,array('class'=>'form-control'))}}
+						</td>
+						<td><a href="javascript:none" onclick="removeRow(this);"  style="color:red" title="Remove"><i class="fa fa-times"></i></a></td>
+					</tr>
+				@else
+					<?php 
+						$count=count(Input::old('amount'));
+					?>
+					@for($i=0;$i<$count;$i++)
+					<tr id="rowClon">
+						<td>{{Form::select('exid[]',$data['expTypeCombo'],Input::old("exid.".$i),array('class'=>'form-control','required'))}}</td>
+						<td>{{--Form::text('amount[]',Input::old('amount.0'),array('placeholder'=>'Amount','class'=>'form-control','required'))--}}</td>
+						<td>
+								{{Form::select('payment_type[]',array('cash'=>'Cash','cheque'=>'Cheque'),Input::old("payment_type.".$i),array('class'=>'form-control','required'))}}
+						</td>
+						<td>
+							{{Form::select('bid[]',$data['bankCombo'],Input::old("bid.".$i),array('class'=>'form-control'))}}
+						</td>
+						<td><a href="javascript:none" onclick="removeRow(this);"  style="color:red" title="Remove"><i class="fa fa-times"></i></a></td>
+					</tr>
+					@endfor
+				@endif
+			</tbody>
+		</table>
 
 		<div class="form-group">
-			 <label class="col-xs-3 control-label">Exp. Type<span class="text-danger">*</span></label>
-			  <div class="col-xs-8">
-			  	{{Form::select('exid',$data['expTypeCombo'],NULL,array('class'=>'form-control','required'))}}
-			  </div>
-		</div>
-
-		<!--<div class="form-group">
-			 <label class="col-xs-3 control-label">Date<span class="text-danger">*</span></label>
-			  <div class="col-xs-8">
-				{{Form::text('date',Input::old('date'),array('placeholder'=>'Select Date','class'=>'form-control datepicker','required','data-date-format'=>'yyyy-mm-dd','readonly'))}}
-			  </div>
-		</div>-->
-
-		<div class="form-group">
-			 <label class="col-xs-3 control-label">Amount<span class="text-danger">*</span></label>
-			  <div class="col-xs-8">
-				{{Form::text('amount',Input::old('amount'),array('placeholder'=>'Amount','class'=>'form-control','required'))}}
-			  </div>
-		</div>
-		
-		<div class="form-group">
-			 <label class="col-xs-3 control-label">Payment Type<span class="text-danger">*</span></label>
-			  <div class="col-xs-8">
-				<label class="control-label">
-					{{Form::radio('payment_type','cash',array('required'))}} Cash
-				</label>&nbsp;&nbsp;&nbsp;&nbsp;
-				<label class="control-label">
-					{{Form::radio('payment_type','cheque',array('required'))}} Cheque
-				</label>
-			  </div>
-		</div>
-
-		<div class="form-group" id="bankCombo" style="display:none">
-			 <label class="col-xs-3 control-label">Select Bank<span class="text-danger">*</span></label>
-			  <div class="col-xs-8">
-			  	{{Form::select('bid',$data['bankCombo'],NULL,array('class'=>'form-control'))}}
-			  </div>
-		</div>
-
-		<div class="form-group">
-			 <label class="col-xs-3 control-label">Note/ Reason/ Description</label>
+			 <label class="col-xs-3 control-label">Note</label>
 			<div class="col-xs-8">
 				{{Form::textarea('note',Input::old('note'),array('placeholder'=>'Note/ Reason/ Description','class'=>'form-control','rows'=>'4'))}}
 			</div>
@@ -83,7 +91,7 @@
 </section>
 </div>
 
-<div class="col-md-6">
+<div class="col-md-5">
 	<section class="panel">
 		<header class="panel-heading">Last Receipts</header>
             <div class="table-responsive">
@@ -92,23 +100,19 @@
 						<tr>
 							<th>Date</th>
 							<th>Branch</th>
-							<th>Expense Type</th>
+							<th>Expense</th>
 							<th>Amount</th>
-							<th>Payment</th>
+							<th>Pay to</th>
 						</tr>
 					</thead>
 				<tbody>
 					@foreach($data['transations'] as $row)
 					<tr>
-						<td>{{$row->date}}</td>
+						<td>{{formatDate($row->date,'d, M')}}</td>
 						<td>{{$row->branche}}</td>
 						<td>{{$row->expense_type}}</td>
 						<td>{{$row->amount}}</td>
-						<td>{{$row->payment_type}} 
-							@if($row->bank!='') 								
-								( {{$row->bank}} )
-							@endif
-						</td>
+						<td>{{$row->source}}</td>
 					</tr>
 					@endforeach
 					@if(count($data['transations']) < 1)
@@ -123,7 +127,17 @@
 </div>
 
 <script>
-	$('input[name="payment_type"]').change(function() {
+	var clonRow="<tr>"+$('#rowClon').html()+"</tr>";
+
+	function addRow() {
+		$('#transContainer tbody').append(clonRow);
+	}
+
+	function removeRow(ele) {
+		$(ele).parent().parent().remove();
+	}
+
+	/*$('input[name="payment_type"]').change(function() {
 		var val=$(this).val();
 		if(val=='cash') {
 			$('#bankCombo').hide();
@@ -131,7 +145,8 @@
 		else {
 			$('#bankCombo').show();
 		}
-	});
+	});*/
+
 	$(document).ready(function() {
 		var val=$('input[name="payment_type"]:checked').val();
 		if(val=='cheque') {
@@ -167,24 +182,28 @@
 			}
 		});
 
-		var payment=$('input[name="payment_type"]:checked').val();
+		$('select[name^="payment_type"]').each(function() {
+			var payment=$(this).val();
+			var bEle=$(this).parent().next().find('[name^="bid"]');
+			var val=$(bEle).val();
 
-		if(payment == 'cheque') {
-			var val=$('select[name="bid"]').val();	
-			if(val=='0' || val=='') {
-				$('select[name="bid"]').addClass('parsley-error');
-				cnt=cnt+1;
+			if(payment == 'cheque') {
+				if(val=='0' || val=='') {
+					$(bEle).addClass('parsley-error');
+					cnt=cnt+1;
+				}
+				else {
+					$(bEle).removeClass('parsley-error');
+				}		
 			}
 			else {
-				$('select[name="bid"]').removeClass('parsley-error');
-			}		
-		}
-		else {
-			$('select[name="bid"]').removeClass('parsley-error');
-		}
+					$(bEle).removeClass('parsley-error');
+			}
+		});
 
 
 		if(cnt > 0) {
+			alert("Please Fix the errors");
 			return false;
 		}
 		else {

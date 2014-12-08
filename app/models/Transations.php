@@ -231,7 +231,7 @@ class Transations extends Eloquent implements UserInterface, RemindableInterface
 		}
 
 		if(isset($option['payment_type']) && $option['payment_type']!='') {
-			$db->where('transations.payment_type','=',$option['payment_type']);
+			$db->where('transations_item.payment_type','=',$option['payment_type']);
 		}
 
 		if(isset($option['brid']) && $option['brid']!='' && $option['brid']!='0' ) {
@@ -239,11 +239,15 @@ class Transations extends Eloquent implements UserInterface, RemindableInterface
 		}
 
 		if(isset($option['exid']) && $option['exid']!='' && $option['exid']!='0') {
-			$db->where('transations.exid','=',$option['exid']);
+			$db->where('transations_item.exid','=',$option['exid']);
 		}
 
 		if(isset($option['bid']) && $option['bid']!='' && $option['bid']!='0') {
-			$db->where('transations.bid','=',$option['bid']);
+			$db->where('transations_item.bid','=',$option['bid']);
+		}
+
+		if(isset($option['amount']) && $option['amount']!='' && $option['amount']!='0') {
+			$db->where('transations_item.amount','=',$option['amount']);
 		}
 
 		if(isset($option['source']) && $option['source']!='') {

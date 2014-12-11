@@ -27,9 +27,9 @@
 	          		<tr>
 	          			<td>{{$i}}</td>
 	          			<td>{{$row->source}} <br/> {{$row->note}}</td>
-	          			<td>{{$row->amount}}</td>
+	          			<td>{{$row->total_amount}}</td>
 	          		</tr>
-	          		<?php $total_creadit+=$row->amount; ?>
+	          		<?php $total_creadit+=$row->total_amount; ?>
 	      			<?php $i++; ?>
       			@else 
       				<?php $total_debit+=$row->amount; ?>
@@ -53,8 +53,6 @@
           			<td colspan="2"><strong>Closing Balance</strong></td>
           			<td><strong>{{$closingBalance}}</strong></td>
           		</tr>
-
-
           	</tbody>
         </table>
     </div>

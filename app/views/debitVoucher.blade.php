@@ -53,7 +53,7 @@
           <tfoot>
             <tr>
               <th>TOTAL</th>
-              <th>{{convert_number_to_words($data[0]->total_amount)}}</th>
+              <th>{{convert_number_to_words(round($data[0]->total_amount))}}</th>
               <th>
                 <strong>{{$data[0]->total_amount}}</strong>
               </th>

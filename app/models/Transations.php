@@ -185,7 +185,7 @@ class Transations extends Eloquent implements UserInterface, RemindableInterface
 
 	}
 
-	public function searchTransation($uid=0,$option=array()) {
+	public function searchTransation($uid,$option=array()) {
 		/* query variables */
 		$start=0;
 		$limit=2;
@@ -276,7 +276,7 @@ class Transations extends Eloquent implements UserInterface, RemindableInterface
 		$balance=DB::table('transations')
 			->select('balance')
 			->where('date','<=',$date)
-			->where('uid',$uid)
+			->where('uid','=',$uid)
 			->orderby('tid','desc')
 			->limit(1)
 			->get();
@@ -290,7 +290,7 @@ class Transations extends Eloquent implements UserInterface, RemindableInterface
 		$balance=DB::table('transations')
 			->select('balance')
 			->where('date','<',$date)
-			->where('uid',$uid)
+			->where('uid','=',$uid)
 			->orderby('tid','desc')
 			->limit(1)
 			->get();
@@ -300,32 +300,35 @@ class Transations extends Eloquent implements UserInterface, RemindableInterface
 		return $balance[0]->balance;
 	}
 
-	public static function total_today_in() {
+	public static function total_today_in($uid) {
 		
 		$sum=DB::table('transations')
 			->where('type','receipt')
 			->whereNull('deleted_at')
 			->where('date',date('Y-m-d'))
+			->where('uid',$uid)
 			->sum('amount');
 		return $sum;
 	}
 
-	public static function total_today_out() {
+	public static function total_today_out($uid) {
 		$sum=DB::table('transations')
 			->whereNull('deleted_at')
 			->where('type','expense')
 			->where('date',date('Y-m-d'))
+			->where('uid',$uid)
 			->sum('amount');
 		return $sum;
 	}
 
-	public static function total_month_out() {
+	public static function total_month_out($uid) {
 		$first=date('Y-m-01',strtotime('this month'));
 		$last=date('Y-m-t',strtotime('this month'));
 		try {
 			$sum=DB::table('transations')
 				->whereNull('deleted_at')
 				->where('type','expense')
+				->where('uid',$uid)
 				->whereBetween('date',array($first,$last))
 				->sum('amount');
 			return $sum;
@@ -336,13 +339,14 @@ class Transations extends Eloquent implements UserInterface, RemindableInterface
 		}
 	}
 
-	public static function total_month_in() {
+	public static function total_month_in($uid) {
 		$first=date('Y-m-01',strtotime('this month'));
 		$last=date('Y-m-t',strtotime('this month'));
 		try {
 			$sum=DB::table('transations')
 				->whereNull('deleted_at')
 				->where('type','receipt')
+				->where('uid',$uid)
 				->whereBetween('date',array($first,$last))
 				->sum('amount');
 			return $sum;
@@ -353,11 +357,11 @@ class Transations extends Eloquent implements UserInterface, RemindableInterface
 		}
 	}
 
-	public function getSumTransation($type,$from,$to) {
+	public function getSumTransation($uid,$type,$from,$to) {
 		$sql="select `date`,sum(amount) as total from transations where `date` between ? and ?
-		and `type`= ? group by `date` order by date desc";
+		and `type`= ? and `uid`=? group by `date` order by date desc";
 		try {
-			$data=DB::select($sql,array($from,$to,$type)); 
+			$data=DB::select($sql,array($from,$to,$type,$uid)); 
 			return $data; 
 		} 
 		catch(Exception $e) {

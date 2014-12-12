@@ -226,4 +226,25 @@ class TransationsController extends BaseController {
 			->with('closingBalance',$closingBalance);
 	}
 
+	public function deleteExpense($tItemId) {
+
+		$row=DB::table('transations_item')			
+			->leftJoin('transations','transations_item.tid','=','transations.tid')
+			->where('transations.date','=',date('Y-m-d'))
+			->where('transations_item.t_item_id','=',$tItemId)
+			->first();
+
+		if($row) {
+			DB::table('transations_item')			
+			->where('t_item_id','=',$tItemId)
+			->delete();
+			$return=array('1','Transation Deleted successfully');
+			return $return;
+		}
+		else {
+			$return=array('0','tring to delete Invalid transation');
+			return $return;
+		}
+	}
+
 }

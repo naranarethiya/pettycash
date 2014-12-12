@@ -1,4 +1,4 @@
-DELIMITER //
+DELIMITER ||
 CREATE TRIGGER `BI_balance` BEFORE INSERT ON `transations`
  FOR EACH ROW BEGIN
 	DECLARE available DOUBLE(8,2) DEFAULT 0;
@@ -18,8 +18,7 @@ CREATE TRIGGER `BI_balance` BEFORE INSERT ON `transations`
 		
 	UPDATE balance SET amount=balance WHERE `uid`=NEW.uid;
 	SET NEW.balance=balance;
-END//
-
+END||
 DELIMITER ;
 
 DELIMITER ||
@@ -30,3 +29,35 @@ CREATE TRIGGER `AI_insert` AFTER INSERT ON `users`
 		insert into balance(uid,amount) value(NEW.uid,'0');
 	END IF;
 END;||
+DELIMITER ;
+
+DELIMITER ||
+CREATE TRIGGER `BD_delete` BEFORE DELETE ON `transations_item`
+ FOR EACH ROW
+	BEGIN
+	DECLARE total_amount DOUBLE(8,2) DEFAULT 0;
+	DECLARE user_id int DEFAULT 0;
+	DECLARE balance DOUBLE(8,2) DEFAULT 0; 
+	DECLARE final_amount DOUBLE(8,2) DEFAULT 0; 
+	DECLARE final_balance DOUBLE(8,2) DEFAULT 0;
+	DECLARE trans_type varchar(10) DEFAULT '';
+	
+	select `amount`,`uid`,`type` from transations where `tid`=OLD.tid into total_amount,user_id,trans_type;
+	set final_amount=total_amount - OLD.amount;
+	
+	if(final_amount = 0) THEN 
+		insert into transations_deleted select * from transations where tid=OLD.tid;
+		DELETE from transations where tid=OLD.tid;
+	ELSE
+		update transations set `amount`=final_amount where tid = OLD.tid; 
+	END IF;
+	insert into transations_item_deleted select * from transations_item where t_item_id=OLD.t_item_id;
+	if(trans_type = 'expense') THEN
+		update balance set `amount`=`amount`+OLD.amount where `uid`=user_id;
+	ELSE
+		select 
+		update balance set `amount`=`amount` - OLD.amount where `uid`=user_id;
+	END IF;
+	
+END||
+DELIMITER ;

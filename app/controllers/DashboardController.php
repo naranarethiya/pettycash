@@ -8,18 +8,19 @@ class DashboardController extends BaseController
 		//$data=User::find(2)->transations;
 		//dsm($data);die;
 		$this->layout->title="Wellcome to dashboard";
-		$data['today_in']=Transations::total_today_in();
-		$data['month_in']=Transations::total_month_in();
-		$data['today_out']=Transations::total_today_out();
-		$data['month_out']=Transations::total_month_out();
+		$data['today_in']=Transations::total_today_in(Auth::user()->uid);
+		$data['month_in']=Transations::total_month_in(Auth::user()->uid);
+		$data['today_out']=Transations::total_today_out(Auth::user()->uid);
+		$data['month_out']=Transations::total_month_out(Auth::user()->uid);
 		$trans=new Transations;
 		$to=date('Y-m-d');
 		$from = subDate($to,'7','D');
-		$sumExpense=$trans->getSumTransation('expense',$from,$to);
-		$sumReceipt=$trans->getSumTransation('receipt',$from,$to);
+		$sumExpense=$trans->getSumTransation(Auth::user()->uid,'expense',$from,$to);
+		$sumReceipt=$trans->getSumTransation(Auth::user()->uid,'receipt',$from,$to);
 
 		$data['chatData']=$this->createChartData($sumExpense,$sumReceipt);
 		$data['transations']=Transations::take(10)
+			->where('uid',Auth::user()->uid)
 			->orderby('tid','desc')
 			->get();
 		$this->layout->content = View::make('dashboard')

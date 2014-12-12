@@ -46,6 +46,9 @@ Route::group(array(
 	/* for reporting */
 	Route::get('report', 'ReportController@index');
 
+	/* for delete transation */
+	Route::get('deleteExpense/{id}', 'TransationsController@deleteExpense')->where('id','[0-9]+');
+
 	/* for branchs setting */
 	Route::get('setting/branch/{id?}','SettingCotroller@branchView')->where('id','[0-9]+');
 	Route::get('setting/branch/delete/{id}','SettingCotroller@branchDelete')->where('id','[0-9]+');

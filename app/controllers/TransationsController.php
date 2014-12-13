@@ -8,8 +8,9 @@ class TransationsController extends BaseController {
 		$this->layout->title="<i class='fa fa-money'> Add Cash Receipt</i>";
 		$data=Transations::where('type','receipt')
 			->take(10)
+			->join('transations_item','transations.tid','=','transations_item.tid')
 			->where('uid',Auth::user()->uid)
-			->orderby('tid','desc')
+			->orderby('transations.tid','desc')
 			->get();
 
 		$this->layout->content = View::make('receipt')

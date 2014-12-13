@@ -43,7 +43,7 @@
 				@if($oldData =='')
 					<tr id="rowClon">
 						<td>{{Form::select('exid[]',$data['expTypeCombo'],NULL,array('class'=>'form-control','required'))}}</td>
-						<td>{{Form::text('amount[]',NULL,array('placeholder'=>'Amount','class'=>'form-control','required'))}}</td>
+						<td>{{Form::text('amount[]','0',array('placeholder'=>'Amount','class'=>'form-control','required'))}}</td>
 						<td>
 								{{Form::select('payment_type[]',array('cash'=>'Cash','cheque'=>'Cheque'),NULL,array('class'=>'form-control','required'))}}
 						</td>
@@ -54,14 +54,18 @@
 					</tr>
 				@else
 					<?php 
-						$count=count(Input::old('amount'));
+						echo $count=count(Input::old('amount'));
+						//dsm(Input::old("amount"));
+						//dsm(Input::old("exid"));
 					?>
 					@for($i=0;$i<$count;$i++)
 					<tr id="rowClon">
 						<td>{{Form::select('exid[]',$data['expTypeCombo'],Input::old("exid.".$i),array('class'=>'form-control','required'))}}</td>
-						<td>{{--Form::text('amount[]',Input::old('amount.0'),array('placeholder'=>'Amount','class'=>'form-control','required'))--}}</td>
 						<td>
-								{{Form::select('payment_type[]',array('cash'=>'Cash','cheque'=>'Cheque'),Input::old("payment_type.".$i),array('class'=>'form-control','required'))}}
+							{{Form::text('amount[]','0',array('placeholder'=>'Amount','class'=>'form-control','required'))}}
+						</td>
+						<td>
+							{{Form::select('payment_type[]',array('cash'=>'Cash','cheque'=>'Cheque'),Input::old("payment_type.".$i),array('class'=>'form-control','required'))}}
 						</td>
 						<td>
 							{{Form::select('bid[]',$data['bankCombo'],Input::old("bid.".$i),array('class'=>'form-control'))}}

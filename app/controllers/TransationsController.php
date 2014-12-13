@@ -8,6 +8,7 @@ class TransationsController extends BaseController {
 		$this->layout->title="<i class='fa fa-money'> Add Cash Receipt</i>";
 		$data=Transations::where('type','receipt')
 			->take(10)
+			->where('uid',Auth::user()->uid)
 			->orderby('tid','desc')
 			->get();
 
@@ -98,7 +99,7 @@ class TransationsController extends BaseController {
 				$messages['bid.'.$i.'.in']='Invalid bank selected';
 			}
 			$messages['exid.'.$i.'.in']='Invalid Expense type selected';
-			$messages['amount.'.$i.'.max']='Expense Amount not greater than available balace';
+			$messages['amount.'.$i.'.max']='Expense Amount not greater than available balance';
 			$messages['payment_type.'.$i.'.in']='Invalid payment type';
 		}
 

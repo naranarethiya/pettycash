@@ -85,7 +85,7 @@
 	});
 
 	function deleteTransation(trans_id) {
-		if(confirm("Are sure to Delete this transations")) {
+		if(confirm("Are sure to Delete this transation..?")) {
 			var url=base_url+"deleteExpense/"+trans_id;
 			$.ajax({
 				url:url,

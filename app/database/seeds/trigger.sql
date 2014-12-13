@@ -37,12 +37,14 @@ CREATE TRIGGER `BD_delete` BEFORE DELETE ON `transations_item`
 	BEGIN
 	DECLARE total_amount DOUBLE(8,2) DEFAULT 0;
 	DECLARE user_id int DEFAULT 0;
-	DECLARE balance DOUBLE(8,2) DEFAULT 0; 
+	DECLARE last_tid int DEFAULT 0;
+	DECLARE trans_date date;
+	DECLARE updated_balance DOUBLE(8,2) DEFAULT 0; 
 	DECLARE final_amount DOUBLE(8,2) DEFAULT 0; 
 	DECLARE final_balance DOUBLE(8,2) DEFAULT 0;
 	DECLARE trans_type varchar(10) DEFAULT '';
 	
-	select `amount`,`uid`,`type` from transations where `tid`=OLD.tid into total_amount,user_id,trans_type;
+	select `amount`,`uid`,`type`,`date` from transations where `tid`=OLD.tid into total_amount,user_id,trans_type,trans_date;
 	set final_amount=total_amount - OLD.amount;
 	
 	if(final_amount = 0) THEN 
@@ -51,12 +53,21 @@ CREATE TRIGGER `BD_delete` BEFORE DELETE ON `transations_item`
 	ELSE
 		update transations set `amount`=final_amount where tid = OLD.tid; 
 	END IF;
+	
+	select tid from transations where `date`=trans_date order by tid desc limit 0,1 into last_tid;
+	
 	insert into transations_item_deleted select * from transations_item where t_item_id=OLD.t_item_id;
+	
 	if(trans_type = 'expense') THEN
 		update balance set `amount`=`amount`+OLD.amount where `uid`=user_id;
 	ELSE
-		select 
 		update balance set `amount`=`amount` - OLD.amount where `uid`=user_id;
+	END IF;
+	
+	select amount from balance where `uid`=user_id into updated_balance;
+	
+	IF(last_tid !='') THEN
+		update transations set `balance`=updated_balance where `tid`=last_tid;
 	END IF;
 	
 END||

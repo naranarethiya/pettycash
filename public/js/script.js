@@ -79,3 +79,26 @@ $('a[title="delete"], a[title="Delete"]').click(function(e) {
 		return false;
 	}
 });
+
+function deleteTransation(trans_id) {
+	if(confirm("Are sure to Delete this transation..?")) {
+		var url=base_url+"deleteExpense/"+trans_id;
+		$.ajax({
+			url:url,
+			beforeSend:function() {
+				
+			}
+		})
+		.done(function(data) {
+			if(data[0]=='1') {
+				alert(data[1]);
+				$('#tr'+trans_id).remove();
+			}
+			else {
+				alert(data[1]);
+			}
+		}).fail(function() {
+			alert("Something went Wrong");
+		});	
+	}
+}

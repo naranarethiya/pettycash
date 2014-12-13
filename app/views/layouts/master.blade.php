@@ -53,6 +53,6 @@
 <!-- End modal -->
 <script src="{{ URL::asset('js/bootstrap.min.js') }}"></script>
 <script src="{{ URL::asset('js/datepicker/bootstrap-datepicker.js') }}"></script>
-<script src="{{ URL::asset('js/script.js') }}"></script>
+<script src="{{ URL::asset('js/script.js?shvchsvdjhvhjsd') }}"></script>
 </body>
 </html>

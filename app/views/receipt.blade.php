@@ -56,19 +56,25 @@
 				<table class="table table-striped b-t text-small dataTable">
 					<thead>
 						<tr>
-							<th>Date</th>
 							<th>Source</th>
-							<th>Reason/Detail</th>
 							<th>Amount</th>
+							<th>Date</th>
+							<th>Reason/Detail</th>
+							<th>#</th>
 						</tr>
 					</thead>
 				<tbody>
 					@foreach($data as $row)
-					<tr>
-						<td>{{formatDate($row->date,'d, M')}}</td>
+					<tr id="tr{{$row->t_item_id}}">
 						<td>{{$row->source}}</td>
-						<td>{{$row->note}}</td>
 						<td>{{$row->amount}}</td>
+						<td>{{formatDate($row->date,'d, M')}}</td>
+						<td>{{$row->note}}</td>
+						<td>
+							@if($row->date==date('Y-m-d'))
+								<a onclick="deleteTransation('{{$row->t_item_id}}')" href="#"><i class="fa fa-trash-o"></i></a>
+							@endif
+						</td>
 					</tr>
 					@endforeach
 					@if(count($data) < 1)

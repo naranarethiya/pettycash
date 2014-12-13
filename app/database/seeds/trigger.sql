@@ -40,13 +40,21 @@ CREATE TRIGGER `BD_delete` BEFORE DELETE ON `transations_item`
 	DECLARE last_tid int DEFAULT 0;
 	DECLARE trans_date date;
 	DECLARE updated_balance DOUBLE(8,2) DEFAULT 0; 
+	DECLARE old_balance DOUBLE(8,2) DEFAULT 0; 
 	DECLARE final_amount DOUBLE(8,2) DEFAULT 0; 
 	DECLARE final_balance DOUBLE(8,2) DEFAULT 0;
 	DECLARE trans_type varchar(10) DEFAULT '';
 	
 	select `amount`,`uid`,`type`,`date` from transations where `tid`=OLD.tid into total_amount,user_id,trans_type,trans_date;
-	set final_amount=total_amount - OLD.amount;
+
+	select amount from balance where `uid`=user_id into old_balance;
 	
+	IF(trans_type = 'receipt' && OLD.amount > old_balance) THEN
+		CALL raise_error('First delete all expense added after this receipt');
+		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'First delete all Expense added after this Receipt';
+	END IF;
+	set final_amount=total_amount - OLD.amount;
+
 	if(final_amount = 0) THEN 
 		insert into transations_deleted select * from transations where tid=OLD.tid;
 		DELETE from transations where tid=OLD.tid;

@@ -97,26 +97,33 @@
 
 <div class="col-md-5">
 	<section class="panel">
-		<header class="panel-heading">Last Receipts</header>
+		<header class="panel-heading">Last Expenses</header>
             <div class="table-responsive">
 				<table class="table table-striped b-t text-small dataTables">
 					<thead>
 						<tr>
+							<th>Pay to</th>
+							<th>Amount</th>
 							<th>Date</th>
 							<th>Branch</th>
 							<th>Expense</th>
-							<th>Amount</th>
-							<th>Pay to</th>
+							<th>#</th>
 						</tr>
 					</thead>
 				<tbody>
 					@foreach($data['transations'] as $row)
-					<tr>
+					<tr id="tr{{$row->t_item_id}}">
+						<td>{{$row->source}}</td>
+						<td>{{$row->amount}}</td>
 						<td>{{formatDate($row->date,'d, M')}}</td>
 						<td>{{$row->branche}}</td>
 						<td>{{$row->expense_type}}</td>
-						<td>{{$row->amount}}</td>
-						<td>{{$row->source}}</td>
+						<td>
+							<a target="_blank" title="Print" href="{{URL::to("printDebitVoucher/".$row->tid)}}"><i class="fa fa-print"></i></a>
+							@if($row->date==date('Y-m-d'))
+								<a title="Delete" onclick="deleteTransation('{{$row->t_item_id}}')" href="#"><i class="fa fa-trash-o"></i></a>
+							@endif
+						</td>
 					</tr>
 					@endforeach
 					@if(count($data['transations']) < 1)

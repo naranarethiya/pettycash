@@ -236,11 +236,18 @@ class TransationsController extends BaseController {
 			->first();
 
 		if($row) {
-			DB::table('transations_item')			
-			->where('t_item_id','=',$tItemId)
-			->delete();
-			$return=array('1','Transation Deleted successfully');
-			return $return;
+			try {
+				DB::table('transations_item')			
+				->where('t_item_id','=',$tItemId)
+				->delete();
+				$return=array('1','Transation Deleted successfully');
+				return $return;
+			}
+			catch(Exception $e) {
+				$return=array('0','First delete all Expense Transations before delete this transation',$e->getMessage());
+				return $return;
+			}
+			
 		}
 		else {
 			$return=array('0','tring to delete Invalid transation');

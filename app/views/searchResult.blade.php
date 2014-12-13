@@ -38,9 +38,9 @@
 						<td>
 							@if($row->type=='expense')
 								<a target="_blank" href="{{URL::to("printDebitVoucher/".$row->tid)}}"><i class="fa fa-print"></i> Print</a>
-								@if($row->date==date('Y-m-d'))
-									<a onclick="deleteTransation('{{$row->t_item_id}}')" href="#"><i class="fa fa-trash-o"></i> Del</a>
-								@endif
+							@endif
+							@if($row->date==date('Y-m-d'))
+								<a onclick="deleteTransation('{{$row->t_item_id}}')" href="#"><i class="fa fa-trash-o"></i> Del</a>
 							@endif
 						</td>
 					</tr>
@@ -83,28 +83,4 @@
 		$('#searchSubmit').val('export');
 		$('#searchSubmit').click();
 	});
-
-	function deleteTransation(trans_id) {
-		if(confirm("Are sure to Delete this transation..?")) {
-			var url=base_url+"deleteExpense/"+trans_id;
-			$.ajax({
-				url:url,
-				beforeSend:function() {
-
-				}
-			})
-			.done(function(data) {
-				if(data[0]=='1') {
-					alert(data[1]);
-					$('#tr'+trans_id).remove();
-				}
-				else {
-					alert(data[1]);
-				}
-			}).fail(function() {
-				alert("Something went Wrong");
-			});	
-		}
-	}
-
 </script>

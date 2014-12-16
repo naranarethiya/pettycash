@@ -38,8 +38,7 @@
 	<div class="form-group" id="exOpt">
 		<div class="col-md-6">
 			<label class="col-xs-3 control-label">Exp.Type</label>
-			<div class="col-xs-8">
-				{{Form::select('exid',$data['expTypeCombo'],Input::get('exid'),array('class'=>'form-control','placeholder'=>'Expense Type'))}}
+			<div class="col-xs-8">	{{Form::select('exid',$data['expTypeCombo'],Input::get('exid'),array('class'=>'form-control','placeholder'=>'Expense Type'))}}
 			</div>
 		</div>
 
@@ -81,8 +80,7 @@
 			
 			<div class="col-md-6">
 				<label class="col-xs-3 control-label">Record Per page</label>
-				<div class="col-xs-8">
-					{{Form::select('limit',array('30'=>'30','60'=>'60','100'=>'100','200'=>'200'),Input::get('limit'),array('class'=>'form-control'))}}
+				<div class="col-xs-8">			{{Form::select('limit',array('30'=>'30','60'=>'60','100'=>'100','200'=>'200'),Input::get('limit'),array('class'=>'form-control'))}}
 				</div>
 			</div>
 		</div>

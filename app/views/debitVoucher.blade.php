@@ -16,10 +16,10 @@
         </div>
         <div class="col-xs-6 text-right">
           <p class="m-t m-b">
-            Trans.No. :
-              <strong>TRANS{{$data[0]->tid}}</strong>
+            Trans. No. :
+              <strong>TRANS-{{$data[0]->tid}}</strong>
               <br>Date :
-              <?php $date=date('d ,M Y',strtotime($data[0]->date)); ?>
+              <?php $date=date('d, M Y',strtotime($data[0]->date)); ?>
               <strong>{{$date}}</strong>
             </p>
 
@@ -32,9 +32,9 @@
         <table class="table table-bordered">
           <thead>
             <tr>
-              <th width="60">SR.</th>
+              <th width="90">SR. No.</th>
               <th style="text-align:center">PARTICULAR</th>
-              <th width="100">RS. </th>
+              <th width="100">RS. (INR) </th>
             </tr>
           </thead>
           <tbody>
@@ -52,10 +52,10 @@
           </tbody>
           <tfoot>
             <tr>
-              <th>TOTAL</th>
+              <th>TOTAL AMT.</th>
               <th>{{convert_number_to_words(round($data[0]->total_amount))}}</th>
               <th>
-                <strong>{{$data[0]->total_amount}}</strong>
+                <strong>{{$data[0]->total_amount}}/-</strong>
               </th>
             </tr>
           </tfoot>
@@ -87,7 +87,9 @@
             size: auto;   /* auto is the current printer page size */
             margin: 1mm;  /* this affects the margin in the printer settings */
         }
-
+		input[type='textbox'] {
+			display:none;
+		}
         body 
         {
             background-color:#FFFFFF;

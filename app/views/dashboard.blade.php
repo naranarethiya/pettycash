@@ -77,7 +77,7 @@
 						<tr>
 							<th>Source/Pay to</th>
 							<th>Amount</th>
-							<th>Balace</th>
+							<th>Balance</th>
 							<th>Date</th>
 							<th>Trans. Type</th>
 							<th>Reason/Detail</th>

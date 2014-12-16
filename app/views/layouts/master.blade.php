@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>Petty cash management</title>
+  <title>Pettycash Management</title>
   <link href="{{ URL::asset('css/app.v2.css') }}"  rel="stylesheet">
   <link href="{{ URL::asset('css/font.css') }}" rel="stylesheet">
   <script src="{{ URL::asset('js/jquery.min.js') }}"></script>
@@ -39,7 +39,7 @@
 				<div class="form-group">
 						<label class="col-xs-2 control-label">Date</label>
 					  <div class="col-xs-6">
-						{{Form::text('dailyDate',Input::get('dailyDate'),array('placeholder'=>'From Date','class'=>'form-control datepicker2','data-date-format'=>'yyyy-mm-dd'))}}
+						{{Form::text('dailyDate',date('Y-m-d'),array('placeholder'=>'From Date','class'=>'form-control datepicker2','data-date-format'=>'yyyy-mm-dd'))}}
 					  </div>
 					  <div class="col-xs-3">
 					  	<input type="submit" class="btn btn-primary" Value="Submit" />

@@ -3,7 +3,7 @@
 ?>
 <div class="col-md-7">
 <section class="panel">
-	<header class="panel-heading">Add Expense</header>
+	<header class="panel-heading">Money Out</header>
 	<div id="formContainer">
 	<form class="form-horizontal" method="post" action="{{URL::to('expense/add')}}" style="margin-top:20px" id="expeseForm">
 		<!--<div class="form-group">
@@ -121,7 +121,7 @@
 						<td>
 							<a target="_blank" title="Print" href="{{URL::to("printDebitVoucher/".$row->tid)}}"><i class="fa fa-print"></i></a>
 							@if($row->date==date('Y-m-d'))
-								<a title="Delete" onclick="deleteTransation('{{$row->t_item_id}}')" href="#"><i class="fa fa-trash-o"></i></a>
+								<a title="Delete" onclick="deleteTransation('{{$row->t_item_id}}')"><i class="fa fa-trash-o"></i></a>
 							@endif
 						</td>
 					</tr>

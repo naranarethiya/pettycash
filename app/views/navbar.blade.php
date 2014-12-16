@@ -3,8 +3,8 @@
 		<ul class="nav affix-top" data-spy="affix" data-offset-top="50">
 			@if(Auth::user()->user_type=='user')
 			<li><a href="{{URL::to('/dashboard')}}"><i class="fa fa-dashboard fa-lg"></i><span>Dashboard</span></a></li>
-			<li><a href="{{URL::to('/receipt')}}"><i class="fa fa-sign-in fa-lg"></i><span>Money In</span></a></li>
-			<li><a href="{{URL::to('/expense')}}"><i class="fa fa-reply fa-lg"></i><span>Money Out</span></a></li> 
+			<li><a href="{{URL::to('/receipt')}}"><i class="fa fa-sign-in fa-lg"></i><span>Credit</span></a></li>
+			<li><a href="{{URL::to('/expense')}}"><i class="fa fa-reply fa-lg"></i><span>Debit</span></a></li> 
 			<li class="dropdown-submenu">
 				<a href="{{URL::to('/search')}}"><i class="fa fa-search fa-lg"></i><span>Search</span></a>
 			</li>

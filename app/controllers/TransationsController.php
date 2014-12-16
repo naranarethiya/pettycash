@@ -5,7 +5,7 @@ class TransationsController extends BaseController {
 	protected $layout = 'layouts.master';
 
 	public function receipt() {
-		$this->layout->title="<i class='fa fa-money'> Add Cash Receipt</i>";
+		$this->layout->title="<i class='fa fa-money'> Credit</i>";
 		$data=Transations::where('type','receipt')
 			->take(10)
 			->join('transations_item','transations.tid','=','transations_item.tid')
@@ -18,7 +18,7 @@ class TransationsController extends BaseController {
 	}
 
 	public function expense() {
-		$this->layout->title="<i class='fa fa-truck'> Add Expense</i>";
+		$this->layout->title="<i class='fa fa-truck'> Debit</i>";
 		$trans= new Transations;
 		$data['transations']=$trans->getExpense(Auth::user()->uid);
 		
@@ -37,7 +37,7 @@ class TransationsController extends BaseController {
 		$description=Input::get('description');
 		$rules=array(
 			'source'=>'required',
-			'amount'=>'required|numeric',
+			'amount'=>'required|numeric|min:1',
 			/*'date'=>'required|date_format:Y-m-d',*/
 		);
 
@@ -45,6 +45,7 @@ class TransationsController extends BaseController {
 			'date.date_format'=>'Invalid date format',
 			'date.required'=>'Date field is required',
 			'amount.numeric'=>'Invalid amount',
+			'amount.min'=>'Invalid amount',
 			'source.required' =>'Source is required'
 		);
 
@@ -83,6 +84,7 @@ class TransationsController extends BaseController {
 			'exid.in'=>'Invalid Expense type selected',
 			'date.date_format'=>'Invalid date format, format must YYYY-MM-DD',
 			'amount.max' => 'Expense Amount not greater than available balace',
+			'amount.min' => 'Expense Amount not less than one',
 			'payment_type.in'=>'Invalid payment type',
 			'bid.in'=>'Invalid Bank selected',
 			'total.max'=>'Total Amount can not greater than available balace'
@@ -92,7 +94,7 @@ class TransationsController extends BaseController {
 
 		for($i=0;$i<$count;$i++) {
 			$rules['exid.'.$i]='required|in:'.$expenseIds;
-			$rules['amount.'.$i]='required|numeric|max:'.$balance;
+			$rules['amount.'.$i]='required|numeric|max:'.$balance.'|min:1';
 			$rules['payment_type.'.$i]='required|in:cash,cheque';
 			$payment_type=Input::get('payment_type');
 			if($payment_type[$i]=='cheque') {
@@ -113,7 +115,6 @@ class TransationsController extends BaseController {
 		$messages = $validator->messages();
 		if($validator->fails()) {
 			return Redirect::back()
-				->withInput()
 				->withErrors($validator);
 		}
 		else {
@@ -184,6 +185,7 @@ class TransationsController extends BaseController {
 	public function printExpense($tid) {
 		$trans= new Transations;
 		$option['where']=array('transations.tid'=>$tid);
+		$option['limit']='100';
 		$data=$trans->getExpense(Auth::user()->uid,$option);
 		if(count($data) < 1) {
 			return Redirect::to("dashboard")

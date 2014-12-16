@@ -1,6 +1,6 @@
 <div class="col-md-7">
 <section class="panel">
-	<header class="panel-heading">Add Receipt</header>
+	<header class="panel-heading">Money In</header>
 	<div id="formContainer">
 	<form class="form-horizontal" method="post" action="{{URL::to('receipt/add')}}" style="margin-top:20px" id="smsForm">
 		<!--<div class="form-group">

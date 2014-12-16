@@ -28,7 +28,7 @@
 					@foreach($data['transations'] as $row)
 
 					<tr class="@if($row->type=='expense') danger @else success @endif" id="tr{{$row->t_item_id}}">
-						<td>Trans{{$row->tid}}</td>
+						<td>Trans-{{$row->tid}}</td>
 						<td>{{$row->date}}</td>
 						<td>{{$row->source}}</td>
 						<td>{{$row->branche}}</td>
@@ -40,7 +40,7 @@
 								<a target="_blank" href="{{URL::to("printDebitVoucher/".$row->tid)}}"><i class="fa fa-print"></i> Print</a>
 							@endif
 							@if($row->date==date('Y-m-d'))
-								<a onclick="deleteTransation('{{$row->t_item_id}}')" href="#"><i class="fa fa-trash-o"></i> Del</a>
+								<a href="#" onclick="deleteTransation('{{$row->t_item_id}}')" ><i class="fa fa-trash-o"></i> Del</a>
 							@endif
 						</td>
 					</tr>
@@ -58,7 +58,8 @@
 	 $('.dataTables').DataTable({
         "scrollY": "350px",
         "bsort": true,
-		"bPaginate": false
+		"bPaginate": false,
+		"order": []
     });
 </script>
 
@@ -82,5 +83,6 @@
 	$('#export').click(function() {
 		$('#searchSubmit').val('export');
 		$('#searchSubmit').click();
+		$('#searchSubmit').val('Submit');
 	});
 </script>

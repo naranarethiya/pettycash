@@ -15,8 +15,8 @@
               <th colspan="3" style="text-align:center">Credit</th>
           	</tr>
             <tr>
-              <th width="60">SR.</th>
-              <th style="text-align:center">PARTICULAR</th>
+              <th width="60">SR. NO.</th>
+              <th style="text-align:center">PARTICULARS</th>
               <th width="100">AMOUNT</th>
             </tr>
           </thead>
@@ -39,19 +39,19 @@
 
           	<tr>
       			<td colspan="2"><strong>Opening Balance</strong></td>
-      			<td><strong>{{$openingBalance}}</strong></td>
+      			<td><strong>{{$openingBalance}}/-</strong></td>
       		</tr>
           		<tr>
           			<td colspan="2"><strong>Total Credit</strong></td>
-          			<td><strong>{{$total_creadit}}</strong></td>
+          			<td><strong>{{$total_creadit}}/-</strong></td>
           		</tr>
           		<tr>
           			<td colspan="2"><strong>Total Debit</strong></td>
-          			<td><strong>{{$total_debit}}</strong></td>
+          			<td><strong>{{$total_debit}}/-</strong></td>
           		</tr>
           		<tr>
           			<td colspan="2"><strong>Closing Balance</strong></td>
-          			<td><strong>{{$closingBalance}}</strong></td>
+          			<td><strong>{{$closingBalance}}/-</strong></td>
           		</tr>
           	</tbody>
         </table>
@@ -63,8 +63,8 @@
               <th colspan="3" style="text-align:center">Debit</th>
           	</tr>
             <tr>
-              <th width="60">SR.</th>
-              <th style="text-align:center">PARTICULAR</th>
+              <th width="60">SR. NO.</th>
+              <th style="text-align:center">PARTICULARS</th>
               <th width="100">AMOUNT</th>
             </tr>
           </thead>
@@ -80,6 +80,10 @@
 	      			<?php $i++; ?>
           		@endif
           	@endforeach
+			<tr>
+				<td colspan="2"><strong>Total Debit</strong></td>
+				<td><strong>{{$total_debit}}/-</strong></td>
+			</tr>
           	</tbody>
         </table>
     </div>

@@ -84,10 +84,7 @@ function deleteTransation(trans_id) {
 	if(confirm("Are sure to Delete this transation..?")) {
 		var url=base_url+"deleteExpense/"+trans_id;
 		$.ajax({
-			url:url,
-			beforeSend:function() {
-				
-			}
+			url:url
 		})
 		.done(function(data) {
 			if(data[0]=='1') {
@@ -100,5 +97,7 @@ function deleteTransation(trans_id) {
 		}).fail(function() {
 			alert("Something went Wrong");
 		});	
+		return true;
 	}
+	return false;
 }

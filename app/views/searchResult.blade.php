@@ -17,6 +17,8 @@
 						<th>Date</th>
 						<th>Source/Pay to</th>
 						<th>Branch</th>
+						<th>Money In</th>
+						<th>Money Out</th>
 						<th>Amount</th>
 						<th>Expense</th>
 						<th>Payment</th>
@@ -24,6 +26,10 @@
 					</tr>
 				</thead>
 				<tbody>
+					<?php 
+						$total_in=0; 
+						$total_out=0; 
+					?>
 					@if(count($data['transations'] > 0))
 					@foreach($data['transations'] as $row)
 
@@ -32,6 +38,8 @@
 						<td>{{$row->date}}</td>
 						<td>{{$row->source}}</td>
 						<td>{{$row->branche}}</td>
+						<td>@if($row->type=='receipt') {{$row->amount}} <?php $total_in+=$row->amount;  ?> @else 0 @endif</td>
+						<td>@if($row->type=='expense') {{$row->amount}} <?php $total_out+=$row->amount;  ?> @else 0 @endif</td>
 						<td>{{$row->amount}}</td>
 						<td>{{$row->expense_type}}</td>
 						<td>{{$row->payment_type}}</td>
@@ -47,6 +55,15 @@
 					@endforeach
 					@endif
 				</tbody>
+				<tfoot>
+					<tr class="info">
+						<th colspan="4">Total Amounts</th>
+						<th>{{$total_in}}</th>
+						<th>{{$total_out}}</th>
+						<th>{{$total_out+$total_in}}</th>
+						<th colspan="3"></th>
+					</tr>
+				</tfoot>
 			</table>
 	</section>
 </div>

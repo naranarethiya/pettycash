@@ -26,7 +26,7 @@
           		@if($row->type=="receipt")
 	          		<tr>
 	          			<td>{{$i}}</td>
-	          			<td>{{$row->source}} <br/> {{$row->note}}</td>
+	          			<td>{{$row->source}} <br/> {{$row->main_note}}</td>
 	          			<td>{{$row->total_amount}}</td>
 	          		</tr>
 	          		<?php $total_creadit+=$row->total_amount; ?>
@@ -63,26 +63,49 @@
               <th colspan="3" style="text-align:center">Debit</th>
           	</tr>
             <tr>
-              <th width="60">SR. NO.</th>
+              <th width="60">AMOUNT</th>
               <th style="text-align:center">PARTICULARS</th>
-              <th width="100">AMOUNT</th>
             </tr>
           </thead>
           <tbody>
-          	<?php $i=1; ?>
+          	<?php 
+              $i=0; 
+              $tid=0;
+            ?>
           	@foreach($data as $row)
           		@if($row->type=="expense")
-	          		<tr>
-	          			<td>{{$i}}</td>
-	          			<td>{{$row->source}} <br/>{{$row->note}}</td>
-	          			<td>{{$row->amount}}</td>
-	          		</tr>
+                  <?php 
+                    if($tid==$row->tid) {
+                      echo"<tr>";
+                        echo'<td>'.$row->expense_type.', '.$row->note.'</td>';
+                        echo"<td>".$row->amount."</td>";
+                      echo"</tr>";
+                    }
+                    else {
+                      if($i!='0') {
+                        echo"</table>";
+                      }
+                        echo'<tr>
+                          <td> '.$row->total_amount.' </td>
+                          <td style="padding:0px">
+                            <table class="table table-bordered">
+                              <tr><td colspan="2"><b>'.$row->source.'</b></td></tr>
+                              <tr>
+                                <td>'.$row->expense_type.', '.$row->note.'</td>
+                                <td width="20%">'.$row->amount.'</td>
+                              </tr>
+                          </td>
+                        </tr>';
+                      $tid=$row->tid;
+                      }
+                  ?>
 	      			<?php $i++; ?>
           		@endif
           	@endforeach
+          </table>
 			<tr>
-				<td colspan="2"><strong>Total Debit</strong></td>
-				<td><strong>{{$total_debit}}/-</strong></td>
+				<td><strong>Total Debit</strong></td>
+				<td style="text-align:right;padding-right:47px"><strong>{{$total_debit}}/-</strong></td>
 			</tr>
           	</tbody>
         </table>

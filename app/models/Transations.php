@@ -82,6 +82,7 @@ class Transations extends Eloquent implements UserInterface, RemindableInterface
 				$item['exid']=$input['exid'][$i];	
 				$item['payment_type']=$input['payment_type'][$i];
 				$item['amount']=$input['amount'][$i];
+				$item['note']=$input['trans_note'][$i];
 				if($input['payment_type'][$i]=='cheque') {
 					$item['bid']=$input['bid'][$i];
 				}
@@ -156,7 +157,7 @@ class Transations extends Eloquent implements UserInterface, RemindableInterface
 
 		/* buid query */
 		$db=DB::table('transations')
-			->select('transations.tid','transations.brid','transations.source','transations.uid','transations.ref_no','transations.type','transations.note','transations.balance','transations.amount as total_amount','transations.date','transations_item.*','banks.title as bank','expense_type.title as expense_type','branches.title as branche')
+			->select('transations.tid','transations.brid','transations.source','transations.uid','transations.ref_no','transations.type','transations.note as main_note','transations.balance','transations.amount as total_amount','transations.date','transations_item.*','banks.title as bank','expense_type.title as expense_type','branches.title as branche')
 			->leftJoin('transations_item','transations.tid','=','transations_item.tid')
 			->leftJoin('banks','transations_item.bid','=','banks.bid')
 			->leftJoin('expense_type','transations_item.exid','=','expense_type.exid')
@@ -207,7 +208,7 @@ class Transations extends Eloquent implements UserInterface, RemindableInterface
 
 		/* buid query */
 		$db=DB::table('transations')
-			->select('transations.tid','transations.brid','transations.source','transations.uid','transations.ref_no','transations.type','transations.note','transations.balance','transations.amount as total_amount','transations.date','transations_item.t_item_id','transations_item.exid','transations_item.amount','transations_item.payment_type','banks.title as bank','expense_type.title as expense_type','branches.title as branche')
+			->select('transations.tid','transations.brid','transations.source','transations.uid','transations.ref_no','transations.type','transations.note as main_note','transations.balance','transations.amount as total_amount','transations.date','transations_item.t_item_id','transations_item.exid','transations_item.amount','transations_item.payment_type','transations_item.note','banks.title as bank','expense_type.title as expense_type','branches.title as branche')
 			->leftJoin('transations_item','transations.tid','=','transations_item.tid')
 			->leftJoin('banks','transations_item.bid','=','banks.bid')
 			->leftJoin('expense_type','transations_item.exid','=','expense_type.exid')

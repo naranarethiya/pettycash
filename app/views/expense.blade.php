@@ -1,7 +1,7 @@
 <?php 
 	$oldData=Input::old('amount.0');
 ?>
-<div class="col-md-7">
+<div class="col-md-12">
 <section class="panel">
 	<header class="panel-heading">Money Out</header>
 	<div id="formContainer">
@@ -14,28 +14,30 @@
 		</div> -->
 
 		<div class="form-group">
-			 <label class="col-xs-3 control-label">Pay to <span class="text-danger">*</span></label>
-			  <div class="col-xs-8">
-				{{Form::text('source',NULL,array('class'=>'form-control','required'))}}
-			  </div>
-		</div>
-
-
-		<div class="form-group">
-			 <label class="col-xs-3 control-label">Branch <span class="text-danger">*</span></label>
+			<div class="col-md-6">
+				<label class="col-xs-2 control-label">Pay to <span class="text-danger">*</span></label>
+				<div class="col-xs-8">
+					{{Form::text('source',NULL,array('class'=>'form-control','required'))}}
+				</div>
+			</div>
+			<div class="col-md-6">
+				<label class="col-xs-2 control-label">Branch <span class="text-danger">*</span></label>
 			  <div class="col-xs-8">
 			  	{{Form::select('brid',$data['branchCombo'],NULL,array('class'=>'form-control','required','pattern'=>'^[1-9][0-9]*$'))}}
 			  </div>
+			</div>
 		</div>
+
 		<a href="javascript:addRow();" style="color:green;margin-left:10px" title="Add transation"><i class="fa fa-plus fa-lg"></i> Add</a>
 		<table class="table table-bordered" id="transContainer" style="margin:5px;width:98%">
 			<thead>
 				<tr>
-					<th>Exp. Type <span class="text-danger">*</span></th>
-					<th>Amount <span class="text-danger">*</span></th>
-					<th>Payment <span class="text-danger">*</span></th>
-					<th>Bank</th>
-					<th>#</th>
+					<th width="15%">Exp. Type <span class="text-danger">*</span></th>
+					<th width="10%">Amount <span class="text-danger">*</span></th>
+					<th width="10%">Payment <span class="text-danger">*</span></th>
+					<th width="50%">Particular</th>
+					<th width="10%">Bank</th>
+					<th width="5%">#</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -46,6 +48,9 @@
 						<td>{{Form::text('amount[]','0',array('placeholder'=>'Amount','class'=>'form-control','required'))}}</td>
 						<td>
 								{{Form::select('payment_type[]',array('cash'=>'Cash','cheque'=>'Cheque'),NULL,array('class'=>'form-control','required'))}}
+						</td>
+						<td>
+							{{Form::textarea('trans_note[]','',array('class'=>'form-control','rows'=>'2'))}}
 						</td>
 						<td>
 							{{Form::select('bid[]',$data['bankCombo'],NULL,array('class'=>'form-control'))}}
@@ -78,8 +83,8 @@
 		</table>
 
 		<div class="form-group">
-			 <label class="col-xs-3 control-label">Note</label>
-			<div class="col-xs-8">
+			 <label class="col-xs-1 control-label">Note</label>
+			<div class="col-xs-Form col-md-8">
 				{{Form::textarea('note',Input::old('note'),array('placeholder'=>'Note/ Reason/ Description','class'=>'form-control','rows'=>'4'))}}
 			</div>
 		</div>
@@ -95,7 +100,7 @@
 </section>
 </div>
 
-<div class="col-md-5">
+<div class="col-md-12">
 	<section class="panel">
 		<header class="panel-heading">Last Expenses</header>
             <div class="table-responsive">
@@ -195,7 +200,7 @@
 
 		$('select[name^="payment_type"]').each(function() {
 			var payment=$(this).val();
-			var bEle=$(this).parent().next().find('[name^="bid"]');
+			var bEle=$(this).parent().parent().find('[name^="bid"]');
 			var val=$(bEle).val();
 
 			if(payment == 'cheque') {

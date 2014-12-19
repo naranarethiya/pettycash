@@ -79,6 +79,7 @@ Route::group(array(
 	Route::post('bank_book/add','bankBookController@add');
 	Route::get('bank_book/delete/{id}','bankBookController@delete')->where('id','[0-9]+');
 	Route::post('bank_book/search','bankBookController@seachResult');
+	Route::get('bank_book/search','bankBookController@searchForm');
 	Route::get('bank_book/search_form','bankBookController@searchForm');
 	Route::get('bank_book/export','bankBookController@export');
 });

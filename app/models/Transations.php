@@ -119,7 +119,6 @@ class Transations extends Eloquent implements UserInterface, RemindableInterface
 			GlobalHelper::setMessage($e->getMessage());
 			return false;
 		}
-		
 	}
 
 	/*

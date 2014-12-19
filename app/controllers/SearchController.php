@@ -5,12 +5,14 @@ class SearchController extends BaseController {
 
 	public function index() {
 		$this->layout->title="Search Transations";
+		$loadForm="searchForm";
 		$data=array();
 		$data['branchCombo']=UserBranches::branchCombo(Auth::user()->uid);
 		$data['bankCombo']=UserBanks::bankCombo(Auth::user()->uid);
 		$data['expTypeCombo']=ExpenseTypes::expenseCombo(Auth::user()->uid);
 		$this->layout->content=View::make('searchPage')
 			->with('data',$data)
+			->with('loadForm',$loadForm)
 			->with('title','Search');
 	}
 

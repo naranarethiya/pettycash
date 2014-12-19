@@ -2,6 +2,6 @@
 <section class="panel">
 	<header class="panel-heading">{{$title}}</header>
 	<div id="formContainer">
-		@include('searchForm')
+		@include($loadForm)
 	</div>
 </section>

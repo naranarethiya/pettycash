@@ -81,8 +81,30 @@ $('a[title="delete"], a[title="Delete"]').click(function(e) {
 });
 
 function deleteTransation(trans_id) {
-	if(confirm("Are sure to Delete this transation..?")) {
+	if(confirm("Are sure to Delete this transaction..?")) {
 		var url=base_url+"deleteExpense/"+trans_id;
+		$.ajax({
+			url:url
+		})
+		.done(function(data) {
+			if(data[0]=='1') {
+				alert(data[1]);
+				$('#tr'+trans_id).remove();
+			}
+			else {
+				alert(data[1]);
+			}
+		}).fail(function() {
+			alert("Something went Wrong");
+		});	
+		return true;
+	}
+	return false;
+}
+
+function deleteBankTransation(trans_id) {
+	if(confirm("Are sure to Delete this transaction..?")) {
+		var url=base_url+"bank_book/delete/"+trans_id;
 		$.ajax({
 			url:url
 		})

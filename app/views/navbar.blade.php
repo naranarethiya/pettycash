@@ -11,6 +11,14 @@
 			<li class="dropdown-submenu">
 				<a data-toggle="modal" href="#DailyReport"><i class="fa fa-list-alt fa-lg"></i><span>Daily Report</span></a>
 			</li>
+			
+			<li class="dropdown-submenu"> 
+				<a href="javascript:void()"><i class="fa fa-file-text-o fa-lg"></i><span>Bank Book</span></a> 
+				<ul class="dropdown-menu">
+					<li><a href="{{URL::to('bank_book')}}">Add</a></li> 
+					<li><a href="{{URL::to('bank_book/search_form')}}">Search</a></li>
+				</ul> 
+			</li> 
 			<li class="dropdown-submenu"> 
 				<a href="javascript:void()"><i class="fa fa-link fa-lg"></i><span>Settings</span></a> 
 				<ul class="dropdown-menu">

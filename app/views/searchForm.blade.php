@@ -19,10 +19,10 @@
 			<label class="col-xs-3 control-label">&nbsp;&nbsp;</label>
 			<div class="col-xs-8">
 				<label class="control-label">
-					<input type="radio" name="type" value="expense" @if(Input::get('type')=='expense') checked="checked" @endif> Expense
+					<input type="radio" name="type" value="expense" @if(Input::get('type')=='expense') checked="checked" @endif> Debit
 				</label>&nbsp;&nbsp;&nbsp;
 				<label class="control-label">
-					<input type="radio" name="type" value="receipt" @if(Input::get('type')=='receipt') checked="checked" @endif> Receipt
+					<input type="radio" name="type" value="receipt" @if(Input::get('type')=='receipt') checked="checked" @endif> Credit
 				</label>&nbsp;&nbsp;&nbsp;
 				<label class="control-label">
 					<input type="radio" name="type" value="" @if(Input::get('type')=='') checked="checked" @endif> All

@@ -1,7 +1,7 @@
  <section class="padder m-t bg-white">
       <div class="row">
         <div class="col-xs-3"></div>
-        <?php $date=date('d M Y',strtotime($date)); ?>
+        <?php $date=date('d M Y, l',strtotime($date)); ?>
         <div class="col-xs-6" style="text-align:center"><h3>{{$date}}</h3></div>
         <div class="col-xs-3"></div>
       </div>
@@ -38,9 +38,9 @@
           	@endforeach
 
           	<tr>
-      			<td colspan="2"><strong>Opening Balance</strong></td>
-      			<td><strong>{{$openingBalance}}/-</strong></td>
-      		</tr>
+        			<td colspan="2"><strong>Opening Balance</strong></td>
+        			<td><strong>{{$openingBalance}}/-</strong></td>
+        		</tr>
           		<tr>
           			<td colspan="2"><strong>Total Credit</strong></td>
           			<td><strong>{{$total_creadit}}/-</strong></td>
@@ -49,6 +49,10 @@
           			<td colspan="2"><strong>Total Debit</strong></td>
           			<td><strong>{{$total_debit}}/-</strong></td>
           		</tr>
+              <tr>
+                <td colspan="2"><strong>Total Credit + Opening Balance </strong></td>
+                <td><strong>{{$total_creadit + $openingBalance}}/-</strong></td>
+              </tr>
           		<tr>
           			<td colspan="2"><strong>Closing Balance</strong></td>
           			<td><strong>{{$closingBalance}}/-</strong></td>
@@ -77,7 +81,7 @@
                   <?php 
                     if($tid==$row->tid) {
                       echo"<tr>";
-                        echo'<td>'.$row->expense_type.', '.$row->note.'</td>';
+                        echo'<td><b>'.$row->expense_type.'</b> - '.$row->note.'</td>';
                         echo"<td>".$row->amount."</td>";
                       echo"</tr>";
                     }
@@ -89,9 +93,9 @@
                           <td> '.$row->total_amount.' </td>
                           <td style="padding:0px">
                             <table class="table table-bordered">
-                              <tr><td colspan="2"><b>'.$row->source.'</b></td></tr>
+                              <tr><td colspan="2"><b>'.$row->source.' - '.$row->branche.'</b></td></tr>
                               <tr>
-                                <td>'.$row->expense_type.', '.$row->note.'</td>
+                                <td><b>'.$row->expense_type.'</b> - '.$row->note.'</td>
                                 <td width="20%">'.$row->amount.'</td>
                               </tr>
                           </td>
@@ -104,8 +108,8 @@
           	@endforeach
           </table>
 			<tr>
+        <td><strong>{{$total_debit}}/-</strong></td>
 				<td><strong>Total Debit</strong></td>
-				<td style="text-align:right;padding-right:47px"><strong>{{$total_debit}}/-</strong></td>
 			</tr>
           	</tbody>
         </table>
@@ -120,19 +124,24 @@
 </section>
 
  <style type="text/css" media="print">
-	@page 
-	{
-	size: auto;   /* auto is the current printer page size */
-	margin: 1mm;  /* this affects the margin in the printer settings */
+  tr{ page-break-inside:avoid;page-break-after: always;}
+	@page {
+  	size: auto;   /* auto is the current printer page size */
+  	margin: 1mm;  /* this affects the margin in the printer settings */
 	}
 
-	body 
-	{
-	background-color:#FFFFFF;
-	margin: 5px;  /* the margin on the content before printing */
+	body {
+  	background-color:#FFFFFF;
+  	margin: 5px;  /* the margin on the content before printing */
 	}
-   .printNono {
-          display: None;
-       }
-
+ .printNono {
+        display: None;
+  }
 	</style>
+
+  <style type="text/css">
+    table {page-break-after:always}
+    tr    { page-break-inside:avoid;}
+    thead { display:table-header-group }
+    tfoot { display:table-footer-group }
+  </style>

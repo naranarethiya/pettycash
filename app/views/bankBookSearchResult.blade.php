@@ -13,13 +13,14 @@
 			<table class="table dataTables">
 				<thead>
 					<tr>
-						<th>Source/Pay to</th>
-						<th>Bank</th>
-						<th>Credit</th>
-						<th>Debit</th>
-						<th>Amount</th>
-						<th>Ref. No.</th>
 						<th>Date</th>
+						<th>Ref. No.</th>
+						<th>Bank</th>
+						<th>Particular</th>
+						<th>Source/Pay to</th>
+						<th>Deposit</th>
+						<th>Withdraw</th>
+						<th>Amount</th>
 						<th>Action</th>
 					</tr>
 				</thead>
@@ -32,13 +33,14 @@
 					@foreach($data['transations'] as $row)
 
 					<tr class="@if($row->type=='debit') danger @else success @endif" id="tr{{$row->id}}">
-						<td>{{$row->source}}</td>
+						<td>{{$row->date}}</td>
+						<td>{{$row->ref_no}}</td>
 						<td>{{$row->bank}}</td>
+						<td>{{$row->note}}</td>
+						<td>{{$row->source}}</td>
 						<td>@if($row->type=='credit') {{$row->amount}} <?php $credit+=$row->amount;  ?> @else 0 @endif</td>
 						<td>@if($row->type=='debit') {{$row->amount}} <?php $debit+=$row->amount;  ?> @else 0 @endif</td>
 						<td>{{$row->amount}}</td>
-						<td>{{$row->ref_no}}</td>
-						<td>{{$row->date}}</td>
 						<td>
 							<a href="#" onclick="deleteBankTransation('{{$row->id}}')" ><i class="fa fa-trash-o"></i> Del</a>
 						</td>

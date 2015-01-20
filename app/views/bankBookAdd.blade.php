@@ -45,9 +45,9 @@
 		</div>
 		
 		<div class="form-group">
-			 <label class="col-xs-3 control-label">Note/ Description</label>
+			 <label class="col-xs-3 control-label">Particular/ Note </label>
 			<div class="col-xs-8">
-				{{Form::textarea('note',Input::old('note'),array('placeholder'=>'Note/ Description','class'=>'form-control','rows'=>'4'))}}
+				{{Form::textarea('note',Input::old('note'),array('placeholder'=>'Particular/ Note','class'=>'form-control','rows'=>'4'))}}
 			</div>
 		</div>
 		 <div class="form-group">

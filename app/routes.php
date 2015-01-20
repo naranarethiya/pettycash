@@ -53,6 +53,7 @@ Route::group(array(
 	Route::get('setting/branch/{id?}','SettingCotroller@branchView')->where('id','[0-9]+');
 	Route::get('setting/branch/delete/{id}','SettingCotroller@branchDelete')->where('id','[0-9]+');
 	Route::post('setting/branch/add/{id?}','SettingCotroller@branchAdd')->where('id','[0-9]+');
+	Route::post('setting/branche_detail','SettingCotroller@branche_detail');
 
 	/* for Banks setting */
 	Route::get('setting/bank/{id?}','SettingCotroller@bankView')->where('id','[0-9]+');

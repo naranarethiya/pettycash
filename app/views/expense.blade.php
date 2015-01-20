@@ -15,16 +15,17 @@
 
 		<div class="form-group">
 			<div class="col-md-6">
+				<label class="col-xs-2 control-label">Branch <span class="text-danger">*</span></label>
+			  <div class="col-xs-8">
+			  	{{Form::select('brid',$data['branchCombo'],NULL,array('class'=>'form-control','required'))}}
+			  </div>
+			</div>
+
+			<div class="col-md-6">
 				<label class="col-xs-2 control-label">Pay to <span class="text-danger">*</span></label>
 				<div class="col-xs-8">
 					{{Form::text('source',NULL,array('class'=>'form-control','required'))}}
 				</div>
-			</div>
-			<div class="col-md-6">
-				<label class="col-xs-2 control-label">Branch <span class="text-danger">*</span></label>
-			  <div class="col-xs-8">
-			  	{{Form::select('brid',$data['branchCombo'],NULL,array('class'=>'form-control','required','pattern'=>'^[1-9][0-9]*$'))}}
-			  </div>
 			</div>
 		</div>
 
@@ -36,7 +37,7 @@
 					<th width="10%">Amount <span class="text-danger">*</span></th>
 					<th width="10%">Payment <span class="text-danger">*</span></th>
 					<th width="50%">Particular</th>
-					<th width="10%">Bank</th>
+					<!--<th width="10%">Bank</th>-->
 					<th width="5%">#</th>
 				</tr>
 			</thead>
@@ -47,14 +48,14 @@
 						<td>{{Form::select('exid[]',$data['expTypeCombo'],NULL,array('class'=>'form-control','required'))}}</td>
 						<td>{{Form::text('amount[]','0',array('placeholder'=>'Amount','class'=>'form-control','required'))}}</td>
 						<td>
-								{{Form::select('payment_type[]',array('cash'=>'Cash','cheque'=>'Cheque'),NULL,array('class'=>'form-control','required'))}}
+								{{Form::select('payment_type[]',array('cash'=>'Cash'),NULL,array('class'=>'form-control','required'))}}
 						</td>
 						<td>
 							{{Form::textarea('trans_note[]','',array('class'=>'form-control','rows'=>'2'))}}
 						</td>
-						<td>
-							{{Form::select('bid[]',$data['bankCombo'],NULL,array('class'=>'form-control'))}}
-						</td>
+						<!--<td>
+							{{--{{Form::select('bid[]',$data['bankCombo'],NULL,array('class'=>'form-control'))}}--}}
+						</td>-->
 						<td><a href="javascript:none" onclick="removeRow(this);"  style="color:red" title="Remove"><i class="fa fa-times"></i></a></td>
 					</tr>
 				@else
@@ -225,5 +226,18 @@
 		else {
 			return true;
 		}
+	});
+
+	$('select[name="brid"]').change(function() {
+		var url=base_url+"setting/branche_detail";
+		var val=$(this).val();
+		$.ajax({
+			url:url,
+			dataType:"json",
+			method:"post",
+			data:{brid:val}
+		}).done(function(data) {
+			$('input[name="source"]').val(data[0].person);
+		});
 	});
 </script>

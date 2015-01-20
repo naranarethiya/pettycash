@@ -59,7 +59,7 @@
 				</tbody>
 				<tfoot>
 					<tr class="info">
-						<th colspan="4">Total Amounts</th>
+						<th colspan="5">Total Amounts</th>
 						<th>{{$total_in}}</th>
 						<th>{{$total_out}}</th>
 						<th>{{$total_out+$total_in}}</th>

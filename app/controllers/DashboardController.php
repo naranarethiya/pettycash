@@ -5,8 +5,6 @@ class DashboardController extends BaseController
 	protected $layout = 'layouts.master';
 
 	public function index() {
-		//$data=User::find(2)->transations;
-		//dsm($data);die;
 		$this->layout->title="Welcome to Dashboard";
 		$data['today_in']=Transations::total_today_in(Auth::user()->uid);
 		$data['month_in']=Transations::total_month_in(Auth::user()->uid);
@@ -19,10 +17,13 @@ class DashboardController extends BaseController
 		$sumReceipt=$trans->getSumTransation(Auth::user()->uid,'receipt',$from,$to);
 
 		$data['chatData']=$this->createChartData($sumExpense,$sumReceipt);
-		$data['transations']=Transations::take(10)
-			->where('uid',Auth::user()->uid)
+		$trans=new Transations();
+		/*$data['transations']=Transations::where('uid',Auth::user()->uid)
+			->where('date',$to)
 			->orderby('tid','desc')
-			->get();
+			->get();*/
+		$option['where']=array('date'=>$to);
+		$data['transations']=$trans->searchTransation(Auth::user()->uid,$option);
 		$this->layout->content = View::make('dashboard')
 			->with('data',$data);
 	}

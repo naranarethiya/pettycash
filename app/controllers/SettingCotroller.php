@@ -149,6 +149,12 @@ class SettingCotroller extends BaseController {
 		}
 		return Redirect::to('/setting/expense');
 	}
+
+	public function branche_detail() {
+		$brid=Input::get('brid');
+		$data=UserBranches::getBranch(Auth::user()->uid,$brid);
+		return $data;
+	}
 }
 
 ?>

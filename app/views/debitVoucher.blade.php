@@ -85,7 +85,7 @@
         @page 
         {
             size: auto;   /* auto is the current printer page size */
-            margin: 1mm;  /* this affects the margin in the printer settings */
+            margin: 5mm;  /* this affects the margin in the printer settings */
         }
 		input[type='textbox'] {
 			display:none;
@@ -93,7 +93,7 @@
         body 
         {
             background-color:#FFFFFF;
-            margin: 5px;  /* the margin on the content before printing */
+            margin: 0mm 15mm;
        }
        .printNono {
           display: None;

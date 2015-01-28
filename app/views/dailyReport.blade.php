@@ -1,9 +1,10 @@
+<?php $date=date('d M Y',strtotime($date)); ?>
  <section class="padder m-t bg-white">
       <div class="row">
-        <div class="col-xs-3"></div>
-        <?php $date=date('d M Y, l',strtotime($date)); ?>
         <div class="col-xs-6" style="text-align:center"><h3>{{$date}}</h3></div>
-        <div class="col-xs-3"></div>
+        <div class="col-xs-6" style="text-align:center">
+			<h3><?php echo date('l',strtotime($date)); ?></h3>
+		</div>
       </div>
 
       <div class="line"></div>
@@ -45,14 +46,14 @@
           			<td colspan="2"><strong>Total Credit</strong></td>
           			<td><strong>{{$total_creadit}}/-</strong></td>
           		</tr>
+				<tr>
+					<td colspan="2"><strong>Total Credit + Opening Balance </strong></td>
+					<td><strong>{{$total_creadit + $openingBalance}}/-</strong></td>
+				</tr>
           		<tr>
           			<td colspan="2"><strong>Total Debit</strong></td>
           			<td><strong>{{$total_debit}}/-</strong></td>
           		</tr>
-              <tr>
-                <td colspan="2"><strong>Total Credit + Opening Balance </strong></td>
-                <td><strong>{{$total_creadit + $openingBalance}}/-</strong></td>
-              </tr>
           		<tr>
           			<td colspan="2"><strong>Closing Balance</strong></td>
           			<td><strong>{{$closingBalance}}/-</strong></td>

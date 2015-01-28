@@ -18,8 +18,8 @@
 						<th>Branch</th>
 						<th>Expense</th>
 						<th>Note</th>
-						<th>Money In</th>
-						<th>Money Out</th>
+						<th>Credit</th>
+						<th>Debit</th>
 						<th>Amount</th>
 						<th>Payment</th>
 						<th>Date</th>

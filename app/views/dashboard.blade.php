@@ -80,7 +80,8 @@
 							<th>Expense</th>
 							<th>Credit</th>
 							<th>Debit</th>
-							<th>Amount</th>
+							<th>Balance</th>
+							<th>Cr/Dr Total</th>
 							<th>Payment</th>
 							<th>Action</th>
 						</tr>
@@ -99,6 +100,7 @@
 						<td>{{$row->expense_type}}</td>
 						<td>@if($row->type=='receipt') {{$row->amount}} <?php $total_in+=$row->amount;  ?> @else 0 @endif</td>
 						<td>@if($row->type=='expense') {{$row->amount}} <?php $total_out+=$row->amount;  ?> @else 0 @endif</td>
+						<td>{{$row->balance}}</td>
 						<td>{{$row->amount}}</td>
 						<td>{{$row->payment_type}}</td>
 						<td>
@@ -122,6 +124,7 @@
 						<td>{{$row->expense_type}}</td>
 						<td>@if($row->type=='receipt') {{$row->amount}} <?php $total_in+=$row->amount;  ?> @else 0 @endif</td>
 						<td>@if($row->type=='expense') {{$row->amount}} <?php $total_out+=$row->amount;  ?> @else 0 @endif</td>
+						<td>{{$row->balance}}</td>
 						<td>{{$row->amount}}</td>
 						<td>{{$row->payment_type}}</td>
 						<td>

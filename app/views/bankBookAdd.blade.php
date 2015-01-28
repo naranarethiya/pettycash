@@ -9,12 +9,12 @@
 			<label>{{Form::radio('type', 'credit',array('required'))}} Credit </label>
 			<label>{{Form::radio('type', 'debit',array('required'))}} Debit</label>
 	  	</div>
-		<div class="form-group">
+		<!--<div class="form-group">
 			 <label class="col-xs-3 control-label">Source/ Pay to <span class="text-danger">*</span></label>
 			  <div class="col-xs-8">
 				{{Form::text('source',Input::old('source'),array('placeholder'=>'Source/Pay to','class'=>'form-control','required'))}}
 			  </div>
-		</div>
+		</div>-->
 
 		<div class="form-group">
 			 <label class="col-xs-3 control-label">Date <span class="text-danger">*</span></label>
@@ -38,14 +38,14 @@
 		</div>
 
 		<div class="form-group">
-			 <label class="col-xs-3 control-label">Reference No. <span class="text-danger">*</span></label>
+			 <label class="col-xs-3 control-label">Cheque No. <span class="text-danger">*</span></label>
 			  <div class="col-xs-8">
-				{{Form::text('ref_no',Input::old('ref_no'),array('placeholder'=>'Reference Number','class'=>'form-control','required'))}}
+				{{Form::text('ref_no',Input::old('ref_no'),array('placeholder'=>'Reference Number','class'=>'form-control'))}}
 			  </div>
 		</div>
 		
 		<div class="form-group">
-			 <label class="col-xs-3 control-label">Particular/ Note </label>
+			 <label class="col-xs-3 control-label">Particular </label>
 			<div class="col-xs-8">
 				{{Form::textarea('note',Input::old('note'),array('placeholder'=>'Particular/ Note','class'=>'form-control','rows'=>'4'))}}
 			</div>
@@ -69,19 +69,19 @@
 				<table class="table table-condensed">
 					<thead>
 						<tr>
-							<th>Source</th>
 							<th>Date</th>
+							<th>Particular</th>
 							<th>Bank</th>
 							<th>Amount</th>
-							<th>Ref.No</th>
+							<th>Cheque No.</th>
 							<th>#</th>
 						</tr>
 					</thead>
 				<tbody>
 					@foreach($data as $row)
 					<tr id="tr{{$row->id}}" class="@if($row->type=='debit')danger @else success @endif">
-						<td>{{$row->source}}</td>
 						<td>{{formatDate($row->date,'d, M')}}</td>
+						<td>{{$row->note}}</td>
 						<td>{{$row->bank}}</td>
 						<td>{{$row->amount}}</td>
 						<td>{{$row->ref_no}}</td>

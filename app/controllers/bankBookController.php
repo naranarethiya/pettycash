@@ -19,7 +19,6 @@ class bankBookController extends BaseController {
 		$bankBook=new BankBook;
 		$bankIds=keysImplode(UserBanks::bankCombo(Auth::user()->uid,false));
 		$rules=array(
-			'source'=>'required',
 			'bid'=>'required|in:'.$bankIds,
 			'amount'=>'required|numeric|min:1',
 			'date'=>'required|date_format:Y-m-d',
@@ -39,7 +38,31 @@ class bankBookController extends BaseController {
 				->withErrors($validator)
 				->withInput();
 		}
-		if($bankBook->addTransation(Auth::user()->uid,Input::all())) {
+		
+		$balance=DB::table('banks')
+		->where('uid',Auth::user()->uid)
+		->where('bid',Input::get('bid'))
+		->get();
+		
+		$amount=Input::get('amount');
+		if(Input::get('type')=='debit') {
+			if($amount > $balance[0]->balance) {
+				return Redirect::back()
+				->withErrors("Debit amount can not grater than available balance")
+				->withInput();
+			}
+			else {
+				$new_balance=$balance[0]->balance-$amount;
+			}
+		}
+		else {
+			$new_balance=$balance[0]->balance+$amount;
+		}
+		if($bankBook->addTransation(Auth::user()->uid,Input::all(),$new_balance)) {
+			DB::table('banks')
+				->where('bid',Input::get('bid'))
+				->update(array('balance'=>$new_balance));
+			
 			return Redirect::back()
 			->with('success',"Transaction Saved successfully");	
 		}
@@ -49,10 +72,42 @@ class bankBookController extends BaseController {
 	public function delete($id) {
 		$data=array();
 		try {
+		
+			$trans=DB::table('bank_book')
+			->where('id',$id)
+			->where('uid',Auth::user()->uid)
+			->get();
+			
+			$balance=DB::table('banks')
+				->where('uid',Auth::user()->uid)
+				->where('bid',$trans[0]->bid)
+				->get();
+			
+			$amount=$trans[0]->amount;
+			
+			if($trans[0]->type=='debit') {
+				$new_balance=$balance[0]->balance+$amount;
+			}
+			else {
+				if($balance[0]->balance < $trans[0]->amount) {
+					return Redirect::back()
+					->withErrors("First delete transaction before added this transactions.")
+					->withInput();
+				}
+				else {
+					$new_balance=$balance[0]->balance-$amount;
+				}
+			}
+			
 			DB::table('bank_book')
 			->where('id',$id)
 			->where('uid',Auth::user()->uid)
-			->update(array('deleted_at'=>date('Y-m-d h:i:s')));	
+			->update(array('deleted_at'=>date('Y-m-d h:i:s')));
+			
+			DB::table('banks')
+				->where('bid',$trans[0]->bid)
+				->update(array('balance'=>$new_balance));
+			
 			$data[0]="1";
 			$data[1]="Transaction Deleted";
 		}

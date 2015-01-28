@@ -41,6 +41,7 @@ class UserBanks extends Eloquent {
 		$bank['title']=strtoupper($input['title']);
 		$bank['ac_number']=$input['ac_number'];
 		$bank['note']=$input['note'];
+		$bank['balance']=0;
 		$bank['uid']=Auth::user()->uid;
 
 		if($bid) {

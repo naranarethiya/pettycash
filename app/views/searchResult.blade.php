@@ -13,16 +13,15 @@
 			<table class="table dataTables">
 				<thead>
 					<tr>
-						<th>Trans. ID</th>
+						<th>Date</th>
 						<th>Source/Pay to</th>
 						<th>Branch</th>
 						<th>Expense</th>
-						<th>Note</th>
 						<th>Credit</th>
 						<th>Debit</th>
-						<th>Amount</th>
+						<th>Balance</th>
+						<th>Cr/Dr Total</th>
 						<th>Payment</th>
-						<th>Date</th>
 						<th>Action</th>
 					</tr>
 				</thead>
@@ -35,16 +34,15 @@
 					@foreach($data['transations'] as $row)
 
 					<tr class="@if($row->type=='expense') danger @else success @endif" id="tr{{$row->t_item_id}}">
-						<td>Trans-{{$row->tid}}</td>
+						<td>{{$row->date}}</td>
 						<td>{{$row->source}}</td>
 						<td>{{$row->branche}}</td>
 						<td>{{$row->expense_type}}</td>
-						<td>{{$row->note}}</td>
 						<td>@if($row->type=='receipt') {{$row->amount}} <?php $total_in+=$row->amount;  ?> @else 0 @endif</td>
 						<td>@if($row->type=='expense') {{$row->amount}} <?php $total_out+=$row->amount;  ?> @else 0 @endif</td>
+						<td>{{$row->balance}}</td>
 						<td>{{$row->amount}}</td>
 						<td>{{$row->payment_type}}</td>
-						<td>{{$row->date}}</td>
 						<td>
 							@if($row->type=='expense')
 								<a target="_blank" href="{{URL::to("printDebitVoucher/".$row->tid)}}"><i class="fa fa-print"></i> Print</a>
@@ -59,9 +57,10 @@
 				</tbody>
 				<tfoot>
 					<tr class="info">
-						<th colspan="5">Total Amounts</th>
+						<th colspan="4">Total Amounts</th>
 						<th>{{$total_in}}</th>
 						<th>{{$total_out}}</th>
+						<th></th>
 						<th>{{$total_out+$total_in}}</th>
 						<th colspan="3"></th>
 					</tr>
@@ -75,11 +74,11 @@
 
 <script>
 	 $('.dataTables').DataTable({
-        "scrollY": "350px",
         "bsort": true,
 		"bPaginate": false,
 		"order": []
     });
+
 </script>
 
 <!-- Modal -->

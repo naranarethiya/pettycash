@@ -52,6 +52,7 @@
 						<tr>
 							<th>Bank</th>
 							<th>A/c No.</th>
+							<th>Balance</th>
 							<th>Note</th>
 							<th>Action</th>
 						</tr>
@@ -61,6 +62,7 @@
 					<tr>
 						<td>{{$row->title}}</td>
 						<td>{{$row->ac_number}}</td>
+						<td>{{$row->balance}}</td>
 						<td>{{$row->note}}</td>
 						<td>
 							<a href="{{URL::to('setting/bank/'.$row->bid)}}" title="Edit">

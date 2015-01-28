@@ -93,9 +93,9 @@ class BankBook extends Eloquent implements UserInterface, RemindableInterface {
 		}
 	}
 
-	public function addTransation($uid,$inputs) {
+	public function addTransation($uid,$inputs,$balance) {
 		$insert['type']=$inputs['type'];
-		$insert['source']=$inputs['source'];
+		//$insert['source']=$inputs['source'];
 		$insert['date']=$inputs['date'];
 		$insert['bid']=$inputs['bid'];
 		$insert['amount']=$inputs['amount'];
@@ -103,6 +103,7 @@ class BankBook extends Eloquent implements UserInterface, RemindableInterface {
 		$insert['note']=$inputs['note'];
 		$insert['created_at']=date('Y-m-d h:i:s');
 		$insert['uid']=$uid;
+		$insert['balance']=$balance;
 
 	 	try {
 	 		return DB::table('bank_book')->insert($insert);

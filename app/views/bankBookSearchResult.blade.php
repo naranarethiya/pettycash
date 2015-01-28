@@ -14,13 +14,13 @@
 				<thead>
 					<tr>
 						<th>Date</th>
-						<th>Ref. No.</th>
+						<th>Chqeue No.</th>
 						<th>Bank</th>
 						<th>Particular</th>
-						<th>Source/Pay to</th>
-						<th>Deposit</th>
-						<th>Withdraw</th>
-						<th>Amount</th>
+						<th>Credit</th>
+						<th>Debit</th>
+						<th>Balance</th>
+						<th>Cr/Dr Total</th>
 						<th>Action</th>
 					</tr>
 				</thead>
@@ -37,9 +37,9 @@
 						<td>{{$row->ref_no}}</td>
 						<td>{{$row->bank}}</td>
 						<td>{{$row->note}}</td>
-						<td>{{$row->source}}</td>
 						<td>@if($row->type=='credit') {{$row->amount}} <?php $credit+=$row->amount;  ?> @else 0 @endif</td>
 						<td>@if($row->type=='debit') {{$row->amount}} <?php $debit+=$row->amount;  ?> @else 0 @endif</td>
+						<td>{{$row->balance}}</td>
 						<td>{{$row->amount}}</td>
 						<td>
 							<a href="#" onclick="deleteBankTransation('{{$row->id}}')" ><i class="fa fa-trash-o"></i> Del</a>
@@ -50,9 +50,10 @@
 				</tbody>
 				<tfoot>
 					<tr class="info">
-						<th colspan="2">Total Amounts</th>
+						<th colspan="4">Total Amounts</th>
 						<th>{{$credit}}</th>
 						<th>{{$debit}}</th>
+						<th></th>
 						<th>{{$credit+$debit}}</th>
 						<th colspan="3"></th>
 					</tr>
@@ -66,7 +67,6 @@
 
 <script>
 	 $('.dataTables').DataTable({
-        "scrollY": "350px",
         "bsort": true,
 		"bPaginate": false,
 		"order": []

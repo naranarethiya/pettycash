@@ -80,3 +80,51 @@ CREATE TRIGGER `BD_delete` BEFORE DELETE ON `transations_item`
 	
 END||
 DELIMITER ;
+
+
+
+DELIMITER ||
+CREATE TRIGGER `BI_bankBook` BEFORE INSERT ON `bank_book`
+ FOR EACH ROW BEGIN
+	DECLARE available INT(10);
+	DECLARE balance INT(10);
+	select balance from banks where bid=NEW.bid
+	into available;
+		
+		IF(NEW.type = 'debit') THEN
+			IF(NEW.amount > available) THEN
+					SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Debit can not more than Available balance';
+			ELSE
+				set balance = available - NEW.amount;
+			END IF;
+		ELSE
+			SET balance = available + NEW.amount;
+		END iF;
+		
+	UPDATE banks SET balance=balance WHERE bid=new.bid;
+	SET NEW.balance=balance;
+END||
+DELIMITER ;
+
+
+
+DELIMITER ||
+CREATE TRIGGER `BD_bankBook` BEFORE DELETE ON `bank_book`
+ FOR EACH ROW BEGIN
+	DECLARE available INT(10) DEFAULT 0;
+	DECLARE balance INT(10) DEFAULT 0;
+	select balance from banks where bid=OLD.bid
+	into available;
+		
+		IF(OLD.type = 'debit') THEN
+			SET balance = available + OLD.amount;
+		ELSE
+			IF(OLD.amount > available) THEN
+					SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'First delete all transation before added this transation';
+			ELSE
+				set balance = available - OLD.amount;
+			END IF;
+		END iF;
+	UPDATE banks SET balance=balance WHERE bid=OLD.bid;
+END||
+DELIMITER ;

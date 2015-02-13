@@ -19,7 +19,6 @@
 						<th>Particular</th>
 						<th>Credit</th>
 						<th>Debit</th>
-						<th>Balance</th>
 						<th>Cr/Dr Total</th>
 						<th>Action</th>
 					</tr>
@@ -33,13 +32,12 @@
 					@foreach($data['transations'] as $row)
 
 					<tr class="@if($row->type=='debit') danger @else success @endif" id="tr{{$row->id}}">
-						<td>{{$row->date}}</td>
+						<td>{{formatDate($row->date,'d-m-Y')}}</td>
 						<td>{{$row->ref_no}}</td>
 						<td>{{$row->bank}}</td>
 						<td>{{$row->note}}</td>
 						<td>@if($row->type=='credit') {{$row->amount}} <?php $credit+=$row->amount;  ?> @else 0 @endif</td>
 						<td>@if($row->type=='debit') {{$row->amount}} <?php $debit+=$row->amount;  ?> @else 0 @endif</td>
-						<td>{{$row->balance}}</td>
 						<td>{{$row->amount}}</td>
 						<td>
 							<a href="#" onclick="deleteBankTransation('{{$row->id}}')" ><i class="fa fa-trash-o"></i> Del</a>
@@ -54,7 +52,6 @@
 						<th>{{$credit}}</th>
 						<th>{{$debit}}</th>
 						<th></th>
-						<th>{{$credit+$debit}}</th>
 						<th colspan="3"></th>
 					</tr>
 				</tfoot>

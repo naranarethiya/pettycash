@@ -134,7 +134,7 @@ class Transations extends Eloquent implements UserInterface, RemindableInterface
 		$start=0;
 		$limit=10;
 		$orderby='transations.tid';
-		$order='desc';
+		$order='asc';
 
 		/* Set query options */
 		if(isset($option['start'])) {
@@ -190,7 +190,7 @@ class Transations extends Eloquent implements UserInterface, RemindableInterface
 		$start=0;
 		$limit=2;
 		$orderby='transations.tid';
-		$order='desc';
+		$order='asc';
 
 		/* Set query options */
 		if(isset($option['start'])) {

@@ -34,7 +34,7 @@
 					@foreach($data['transations'] as $row)
 
 					<tr class="@if($row->type=='expense') danger @else success @endif" id="tr{{$row->t_item_id}}">
-						<td>{{$row->date}}</td>
+						<td>{{formatDate($row->date,'d-m-Y')}}</td>
 						<td>{{$row->source}}</td>
 						<td>{{$row->branche}}</td>
 						<td>{{$row->expense_type}}</td>

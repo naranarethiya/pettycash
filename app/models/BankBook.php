@@ -26,7 +26,7 @@ class BankBook extends Eloquent implements UserInterface, RemindableInterface {
 		$start=0;
 		$limit=10;
 		$orderby='bank_book.id';
-		$order='desc';
+		$order='asc';
 
 		/* Set query options */
 		if(isset($option['start'])) {

@@ -34,7 +34,7 @@
             <tr>
               <th width="90">SR. No.</th>
               <th style="text-align:center">PARTICULAR</th>
-              <th width="100">RS. (INR) </th>
+              <th width="100">RS. (&#x20B9;) </th>
             </tr>
           </thead>
           <tbody>
@@ -43,7 +43,7 @@
             <tr>
               <td>{{$i}}</td>
 
-              <td>{{$row->expense_type}} <br/> {{$row->note}}</td>
+              <td><b>{{$row->expense_type}}</b> <br/> {{$row->note}}</td>
 
               <td>{{$row->amount}}</td>
             </tr>

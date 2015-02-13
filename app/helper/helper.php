@@ -147,7 +147,7 @@ function formatDate($dateString, $format) {
 * Convert Amount to word
 *
 **/
-function convert_number_to_words($number) {
+function convert_number_to_words($number,$repeat=false) {
     
     $hyphen      = '-';
     $conjunction = ' and ';
@@ -206,7 +206,7 @@ function convert_number_to_words($number) {
     }
 
     if ($number < 0) {
-        return $negative . convert_number_to_words(abs($number));
+        return $negative . convert_number_to_words(abs($number),true);
     }
     
     $string = $fraction = null;
@@ -232,17 +232,17 @@ function convert_number_to_words($number) {
             $remainder = $number % 100;
             $string = $dictionary[$hundreds] . ' ' . $dictionary[100];
             if ($remainder) {
-                $string .= $conjunction . convert_number_to_words($remainder);
+                $string .= $conjunction . convert_number_to_words($remainder,true);
             }
             break;
         default:
             $baseUnit = pow(1000, floor(log($number, 1000)));
             $numBaseUnits = (int) ($number / $baseUnit);
             $remainder = $number % $baseUnit;
-            $string = convert_number_to_words($numBaseUnits) . ' ' . $dictionary[$baseUnit];
+            $string = convert_number_to_words($numBaseUnits,true) . ' ' . $dictionary[$baseUnit];
             if ($remainder) {
                 $string .= $remainder < 100 ? $conjunction : $separator;
-                $string .= convert_number_to_words($remainder);
+                $string .= convert_number_to_words($remainder,true);
             }
             break;
     }
@@ -255,7 +255,10 @@ function convert_number_to_words($number) {
         }
         $string .= implode(' ', $words);
     }
-    
+	
+    if($repeat==false) {
+		$string.=" rupees only";
+	}
     return strtoupper($string);
 }
 ?>

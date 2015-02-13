@@ -1,7 +1,4 @@
 <?php
-
-
-
 /**
  * UsersController Class
  *
@@ -49,6 +46,11 @@ class UsersController extends BaseController
 					return Redirect::to("/user/add");
 				}
 				else {
+					$sql="SELECT distinct(date) FROM `transations`";
+					$result=DB::select($sql);
+					$result=array_column($result,'date');
+					$active_dates=json_encode($result);
+					Session::put('active_dates',$active_dates);
 					return Redirect::to("/dashboard");	
 				}
 				

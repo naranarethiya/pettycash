@@ -42,7 +42,7 @@
 				<tbody>
 					@foreach($data as $row)
 					<tr>
-						<td>{{$row->date}}</td>
+						<td>{{formatDate($row->date,'d-m-Y')}}</td>
 						<td>{{$row->ref_no}}</td>
 						<td>{{$row->description}}</td>
 						<td>{{$row->amount}}</td>

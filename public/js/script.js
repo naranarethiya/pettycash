@@ -35,9 +35,35 @@ $(document).ready(function() {
     $(".datepicker").datepicker({
     	"autoclose": true
     }).datepicker('setValue', new Date());
-
-    $(".datepicker2").datepicker({
+	
+	$(".datepicker2").datepicker({
     	"autoclose": true
+    });
+
+	var dates=jQuery.parseJSON($('#active_dates').val());
+    $(".dailyDatepicker").datepicker({
+    	"autoclose": true,
+		onRender: function(date) {
+			var y=date.getFullYear();
+			var m=parseInt(date.getMonth())+parseInt(1);
+			var d=date.getDate();
+			if(d.toString().length < 2) {
+				d='0'+d;
+			}
+			
+			if(m.toString().length < 2) {
+				m='0'+m;
+			}
+			var str=y+'-'+m+'-'+d;
+			var rs=$.inArray(str, dates);
+			var cmp=parseInt('-1');
+			if (parseInt(rs) < parseInt('0')) {
+				return 'disabled';
+			}
+			else {
+				return '';
+			}
+		},
     });
 });
 

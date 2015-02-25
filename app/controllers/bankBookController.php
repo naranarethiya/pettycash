@@ -176,5 +176,11 @@ class bankBookController extends BaseController {
 	public function export() {
 
 	}
+	
+	public function getTransaction() {
+		$bid=Input::get('bid');
+		$bankBook = new BankBook;
+		return $bankBook->search(Auth::user()->uid,Input::all());
+	}
 
 }

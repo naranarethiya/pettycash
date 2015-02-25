@@ -83,6 +83,7 @@ Route::group(array(
 	Route::get('bank_book/search','bankBookController@searchForm');
 	Route::get('bank_book/search_form','bankBookController@searchForm');
 	Route::get('bank_book/export','bankBookController@export');
+	Route::post('bank_book/getTransation','bankBookController@getTransaction');
 });
 
 Route::post('login', 'UsersController@doLogin');

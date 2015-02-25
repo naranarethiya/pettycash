@@ -100,3 +100,27 @@
 			</div>
 	</section>
 </div>
+<script>
+	$('select[name="bid"]').change(function() {
+		var val=$(this).val();
+		url=base_url+"bank_book/getTransation";
+		$.ajax({
+			method:"post",
+			url:url,
+			data:{bid:val},
+			dataType:"json",
+		}).done(function(data) {
+			var tbody="";
+			$.each(data,function(key,val) {
+				if(val.type=='debit') {
+					var cls='danger';
+				}
+				else {
+					var cls='success';
+				}
+				tbody+='<tr id="tr'+val.id+'" class="'+cls+'"><td>'+val.date+'</td><td>'+val.note+'</td><td>'+val.bank+'</td><td>'+val.amount+'</td><td>'+val.ref_no+'</td><td><a onclick="deleteBankTransation(\''+val.id+'\')" href="#"><i class="fa fa-trash-o"></i></a></td></tr>';
+			})
+			$('table tbody').html(tbody);
+		});
+	});
+</script>

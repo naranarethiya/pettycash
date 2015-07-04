@@ -1,3 +1,4 @@
+ 
  <section class="padder m-t bg-white">
       <div class="row">
         <div class="col-xs-3"></div>
@@ -98,6 +99,11 @@
        .printNono {
           display: None;
        }
+       .nav-primary {
+  width:1px;
+  display: none !important;
+  visibility:hidden;
+  }
     </style>
 <script>
   $(function() {

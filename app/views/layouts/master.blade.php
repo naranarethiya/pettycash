@@ -12,10 +12,10 @@
 	
 	<section id="content">
 		<section class="main padder">
-			<div class="clearfix"> <h4>{{$title}}</h4> </div>
+			<!--<div class="clearfix"> <h4>{{$title}}</h4> </div>
 			<div class="clearfix">
 				@include("layouts.message")
-			</div>
+			</div>-->
 			<div class="row">
 				{{$content}}
 			</div>
